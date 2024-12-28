@@ -9,13 +9,6 @@ export default defineConfig({
         }),
     ],
     build: {
-        rollupOptions: {
-            output: {
-                // Mengarahkan ke folder public/assets
-                assetFileNames: "assets/[name]-[hash][extname]",
-                entryFileNames: "assets/[name]-[hash].js",
-            },
-        },
         outDir: "dist", // Mengarahkan output build ke folder public
     },
 });
