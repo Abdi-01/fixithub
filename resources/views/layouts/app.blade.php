@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'FixIt Hub')</title>
 
-    @vite('resources/css/app.css')
+    <!-- @vite('resources/css/app.css') -->
 
     <link rel="stylesheet" href="{{ asset('build/assets/app-CWqOL1jS.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/app-CWqOL1jS.css') }}">
