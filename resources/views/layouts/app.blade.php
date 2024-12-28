@@ -9,8 +9,8 @@
 
     <!-- @vite('resources/css/app.css') -->
 
-    <link rel="stylesheet" href="{{ asset('build/assets/app-CWqOL1jS.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/app-CWqOL1jS.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BDgDlTA4.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/app-BDgDlTA4.css') }}">
 
 </head>
 
