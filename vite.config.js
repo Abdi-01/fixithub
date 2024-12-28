@@ -8,5 +8,14 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    base: "/",
+    build: {
+        rollupOptions: {
+            output: {
+                // Mengarahkan ke folder public/assets
+                assetFileNames: "assets/[name]-[hash][extname]",
+                entryFileNames: "assets/[name]-[hash].js",
+            },
+        },
+        outDir: "public/build", // Mengarahkan output build ke folder public
+    },
 });
