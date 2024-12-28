@@ -8,7 +8,4 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    build: {
-        outDir: "dist", // Mengarahkan output build ke folder public
-    },
 });
