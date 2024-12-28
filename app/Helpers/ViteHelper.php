@@ -20,6 +20,10 @@ class ViteHelper
             throw new \Exception('Asset not found in manifest: ' . $path);
         }
 
-        return '/build/' . $manifest[$path]['file'];
+        if (config('app.env') === 'production') {
+            return $manifest[$path]['file'];
+        } else {
+            return '/build/' . $manifest[$path]['file'];
+        }
     }
 }
