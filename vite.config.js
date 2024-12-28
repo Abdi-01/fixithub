@@ -16,6 +16,6 @@ export default defineConfig({
                 entryFileNames: "assets/[name]-[hash].js",
             },
         },
-        outDir: "public/build", // Mengarahkan output build ke folder public
+        outDir: "dist", // Mengarahkan output build ke folder public
     },
 });
