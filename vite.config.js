@@ -8,4 +8,13 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    build: {
+        rollupOptions: {
+            output: {
+                // Mengarahkan ke folder public/assets
+                assetFileNames: "assets/[name]-[hash][extname]",
+                entryFileNames: "assets/[name]-[hash].js",
+            },
+        },
+    },
 });
