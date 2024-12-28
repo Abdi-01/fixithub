@@ -2,12 +2,21 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\Log;
+
 class ViteHelper
 {
     public static function asset($path)
     {
-        // Path ke manifest.json
-        $manifestPath = public_path('build/manifest.json');
+        // Cek jika VERCEL_ENV diatur
+        $isVercel = env('VERCEL_ENV', false);
+
+        // Tentukan lokasi manifest.json
+        $manifestPath = $isVercel
+            ? base_path('public/build/manifest.json') // Path untuk Vercel
+            : public_path('build/manifest.json');     // Path untuk localhost
+
+        Log::info('Manifest Path: ' . $manifestPath);
 
         if (!file_exists($manifestPath)) {
             throw new \Exception('Manifest file not found: ' . $manifestPath);
