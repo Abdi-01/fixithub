@@ -8,6 +8,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    base: "/build/",
     build: {
         rollupOptions: {
             output: {
