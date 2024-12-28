@@ -8,7 +8,7 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    base: "/build/",
+    base: "/build/assets",
     build: {
         rollupOptions: {
             output: {
