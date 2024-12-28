@@ -21,7 +21,7 @@ class Kernel extends HttpKernel
 
         // Tambahkan Middleware CSP jika ingin berlaku global
         \App\Http\Middleware\ContentSecurityPolicy::class,
-        \App\Http\Middleware\StaticFilesMiddleware::class,
+        // \App\Http\Middleware\StaticFilesMiddleware::class,
     ];
 
     /**
