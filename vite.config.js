@@ -8,11 +8,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
-    base: "/build/assets",
+    base: "/assets/", // Semua file akan diakses melalui /assets/
     build: {
+        outDir: "public/build", // Output tetap di dalam public/build
         rollupOptions: {
             output: {
-                // Mengarahkan ke folder public/assets
                 assetFileNames: "assets/[name]-[hash][extname]",
                 entryFileNames: "assets/[name]-[hash].js",
             },

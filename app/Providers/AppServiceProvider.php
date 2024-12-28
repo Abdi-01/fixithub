@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Vite;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,5 +24,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+        // Modifikasi base path Vite untuk deployment di Vercel
+        if (config('app.env') === 'production') {
+            Vite::useBuildDirectory('/assets');
+        }
     }
 }
