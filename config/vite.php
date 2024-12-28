@@ -11,5 +11,5 @@ return [
     |
     */
 
-    'manifest_path' => 'dist/manifest.json', // Sesuaikan ke lokasi baru
+    'manifest_path' => 'public/build/manifest.json', // Sesuaikan ke lokasi baru
 ];
