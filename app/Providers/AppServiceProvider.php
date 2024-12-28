@@ -25,8 +25,8 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         // Modifikasi base path Vite untuk deployment di Vercel
-        if (config('app.env') === 'production') {
-            // Vite::useBuildDirectory('/assets');
-        }
+        // if (config('app.env') === 'production') {
+        // Vite::useBuildDirectory('/assets');
+        // }
     }
 }
