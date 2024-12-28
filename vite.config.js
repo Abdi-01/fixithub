@@ -9,7 +9,7 @@ export default defineConfig({
         }),
     ],
     build: {
-        manifest: true,
+        // manifest: true,
         outDir: "public/build", // Output tetap di dalam public/build
         rollupOptions: {
             input: "resources/css/app.css",
