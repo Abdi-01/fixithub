@@ -53,3 +53,45 @@ Route::post('/submit', function (Request $request) {
         return back()->withErrors(['error' => 'Terjadi kesalahan saat membuat akun']);
     }
 })->name('register.submit');
+
+Route::post('/report/submit', function (Request $request) {
+    // Validasi input
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'location' => 'required|string',
+        'department' => 'required|string',
+        'category' => 'required|string',
+        // 'mediafile' => 'nullable|file|mimes:jpg,png,gif,svg|max:2048',
+    ]);
+
+    // Upload file jika ada
+    // if ($request->hasFile('mediafile')) {
+    //     $file = $request->file('mediafile');
+    //     $filePath = $file->store('uploads', 'public'); // Simpan di storage/public/uploads
+    //     $validated['mediafile'] = $filePath;
+    // }
+
+    // Kirim data ke API
+    $response = Http::post('https://kindlyblade-us.backendless.app/api/data/reports', $validated);
+
+    // Tangani respons
+    if ($response->successful()) {
+        return back()->with('success', 'Laporan berhasil dibuat');
+    } else {
+        return back()->withErrors(['error' => 'Terjadi kesalahan saat membuat laporan']);
+    }
+})->name('report.submit');
+
+Route::get('/reports', function () {
+    // Kirim permintaan GET ke API
+    $response = Http::get('https://kindlyblade-us.backendless.app/api/data/reports');
+
+    // Periksa apakah permintaan berhasil
+    if ($response->successful()) {
+        $reports = $response->json();
+        return view('reports.index', compact('reports')); // Tampilkan di view
+    } else {
+        return back()->withErrors(['error' => 'Gagal mengambil data laporan']);
+    }
+})->name('reports.index');
