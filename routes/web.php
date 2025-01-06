@@ -28,6 +28,10 @@ Route::get('/signup', function () {
     return view('signup');
 });
 
+Route::get('/problem-timeline', function () {
+    return view('problem');
+});
+
 // #define route for API call
 Route::post('/submit', function (Request $request) {
     // #input validation
