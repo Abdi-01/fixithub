@@ -37,9 +37,9 @@
                             </div>
                         </div>
                         <a href="#">
-                            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $report['title'] }}</h5>
+                            <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 ">{{ $report['title'] }}</h5>
                         </a>
-                        <p class="mb-3 font-normal text-gray-500 dark:text-gray-400 line-clamp-1">
+                        <p class="mb-3 font-normal text-gray-500  line-clamp-1">
                             {!! strip_tags($report['description']) !!}
                         </p>
                     </div>
