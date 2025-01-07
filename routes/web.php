@@ -68,7 +68,6 @@ Route::post('/report/submit', function (Request $request) {
         'title' => 'required|string|max:255',
         'description' => 'required|string',
         'location' => 'required|string',
-        'department' => 'required|string',
         'category' => 'required|string',
         // 'mediafile' => 'nullable|file|mimes:jpg,png,gif,svg|max:2048',
     ]);

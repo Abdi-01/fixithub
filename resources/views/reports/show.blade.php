@@ -18,7 +18,7 @@ The data structure example is like this :
 @extends('layouts.app')
 
 @section('content')
-<div class="px-24">
+<div class="md:px-24">
     @if ($report)
     @section('title', $report['title'] . ' | FixIt Hub')
     <div class="flex gap-16">
@@ -31,7 +31,7 @@ The data structure example is like this :
                 <!-- <p><span class="text-gray-400">Status</span> <b>{{ $report['status'] }}</b></p> -->
             </div>
             <hr />
-            <p>{{ $report['description'] ?? 'N/A' }}</p>
+            <p>{!! $report['description'] ?? 'N/A' !!}</p>
             <hr />
             <div>
                 <div class="flex justify-between items-center">

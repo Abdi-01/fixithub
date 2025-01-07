@@ -39,7 +39,9 @@
                         <a href="#">
                             <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ $report['title'] }}</h5>
                         </a>
-                        <p class="mb-3 font-normal text-gray-500 dark:text-gray-400">{{ $report['description'] }}</p>
+                        <p class="mb-3 font-normal text-gray-500 dark:text-gray-400 line-clamp-1">
+                            {!! strip_tags($report['description']) !!}
+                        </p>
                     </div>
                     <div class="px-4 py-2 md:px-6 md:py-4 bg-gray-100">
                         <a href="/reports/{{ $report['objectId'] }}" class="inline-flex font-medium items-center text-blue-600 hover:underline">
