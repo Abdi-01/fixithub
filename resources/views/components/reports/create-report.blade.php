@@ -28,9 +28,6 @@
         // ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
     });
 </script>
-<textarea>
-  Welcome to TinyMCE!
-</textarea>
 <div class="space-y-5">
     <h1 class="text-4xl text-center text-gray-900"><span class="text-gray-400 font-light">Selamat Datang
             di</span>
