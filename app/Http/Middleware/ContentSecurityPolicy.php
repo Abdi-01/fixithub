@@ -18,14 +18,13 @@ class ContentSecurityPolicy
     {
         $response = $next($request);
 
-        // Tambahkan header Content-Security-Policy
+        // Perbarui header Content-Security-Policy
         $response->headers->set('Content-Security-Policy', "
-            default-src 'self'; 
-            img-src 'self' https://images.unsplash.com; 
-            script-src 'self'; 
-            style-src 'self' 'unsafe-inline'; 
-            connect-src 'self' https:;
-        ");
+        default-src 'self'; 
+        img-src 'self' https://via.placeholder.com https://images.unsplash.com; 
+        script-src 'self' 'unsafe-inline'; 
+        style-src 'self' 'unsafe-inline'; 
+        connect-src 'self' https:;");
 
         return $response;
     }
