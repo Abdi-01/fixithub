@@ -22,7 +22,7 @@ class ContentSecurityPolicy
         $response->headers->set('Content-Security-Policy', "
         default-src 'self'; 
         img-src 'self' https://via.placeholder.com https://images.unsplash.com; 
-        script-src 'self' 'unsafe-inline'; 
+        script-src 'self' 'unsafe-inline' https://cdn.tiny.cloud; 
         style-src 'self' 'unsafe-inline'; 
         connect-src 'self' https:;
     ");
