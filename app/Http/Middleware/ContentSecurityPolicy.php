@@ -21,7 +21,7 @@ class ContentSecurityPolicy
         // Tambahkan header Content-Security-Policy
         $response->headers->set('Content-Security-Policy', "
             default-src 'self'; 
-            img-src 'self' data: https:; 
+            img-src 'self' https://*; 
             script-src 'self'; 
             style-src 'self' 'unsafe-inline'; 
             connect-src 'self' https:;
