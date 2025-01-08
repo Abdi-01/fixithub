@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
@@ -11,7 +12,7 @@ class ReportController extends Controller
 
     public function getReports()
     {
-        $response = Http::get($this->BASE_URL . '/api/data/reports?loadRelations=user');
+        $response = Http::get($this->BASE_URL . '/api/data/reports?loadRelations=ownerData&&sortBy=%60created%60%20desc');
 
         // Periksa apakah permintaan berhasil
         if ($response->successful()) {
@@ -25,7 +26,7 @@ class ReportController extends Controller
     public function show($slug)
     {
         // Fetch data dari API menggunakan slug
-        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=user";
+        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=ownerData";
 
         try {
             $response = Http::get($apiUrl);
@@ -61,24 +62,69 @@ class ReportController extends Controller
         //     $validated['mediafile'] = $filePath;
         // }
 
-        // Ambil email dari session
-        $email = session('user') ? session('user')->email : null;
+        $accountId = session('user') ? session('user')['objectId'] : null;
 
-        // Periksa apakah email ada
-        if (!$email) {
-            return back()->withErrors(['error' => 'Email pengguna tidak ditemukan dalam sesi']);
+        // Periksa apakah data user ada
+        if (!$accountId) {
+            return back()->withErrors(['error' => 'Data pengguna tidak ditemukan dalam sesi']);
         }
-
-        // Gabungkan data validasi dengan email
-        $payload = array_merge($validated, [
-            'email' => $email,
+        Log::info('Response from Backendless:', [
+            'response_data_account' => $accountId,
         ]);
 
+        // Gabungkan data validasi dengan email
+        $payload = [
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'location' => $validated['location'],
+            'category' => $validated['category'],
+        ];
+
+
         // Kirim data ke API
-        $response = Http::post($this->BASE_URL . '/api/data/reports', $payload);
+        $createReportResponse = Http::post($this->BASE_URL . '/api/data/reports', $payload);
+
+        if (!$createReportResponse->successful()) {
+            Log::error('Error creating report:', ['response' => $createReportResponse->body()]);
+            return back()->withErrors(['error' => 'Gagal membuat laporan di Backendless']);
+        }
+
+        // Ambil ID laporan yang baru dibuat
+        $reportObjectId = $createReportResponse->json()['objectId'];
+        Log::info('Response from Backendless:', [
+            'response_data_reportId' => $reportObjectId,
+        ]);
+
+        // Cek apakah laporan benar-benar ada
+        $reportExists = Http::get($this->BASE_URL . "/api/data/reports/{$reportObjectId}");
+        if (!$reportExists->successful()) {
+            Log::error('Report not found in Backendless:', ['reportId' => $reportObjectId]);
+            return back()->withErrors(['error' => 'Laporan tidak ditemukan di Backendless']);
+        }
+
+        // Cek apakah akun benar-benar ada
+        $accountExists = Http::get($this->BASE_URL . "/api/data/accounts/{$accountId}");
+        if (!$accountExists->successful()) {
+            Log::error('Account not found in Backendless:', ['accountId' => $accountId]);
+            return back()->withErrors(['error' => 'Akun tidak ditemukan di Backendless']);
+        }
+
+        // Buat relasi antara laporan dan akun di Backendless
+        $relationAccountResponse = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->put($this->BASE_URL . "/api/data/accounts/{$accountId}/reportList", [
+            'objectIds' => $reportObjectId
+        ]);
+
+        $relationReportResponse = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->put($this->BASE_URL . "/api/data/reports/{$reportObjectId}/ownerData", [
+            'objectIds' => $accountId
+        ]);
+
 
         // Tangani respons
-        if ($response->successful()) {
+        if ($createReportResponse->successful() && $relationAccountResponse->successful() && $relationReportResponse->successful()) {
             return back()->with('success', 'Laporan berhasil dibuat');
         } else {
             return back()->withErrors(['error' => 'Terjadi kesalahan saat membuat laporan']);

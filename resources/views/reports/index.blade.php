@@ -19,7 +19,10 @@
                 <div class="bg-white border border-gray-200 rounded-lg shadow">
                     <div class="p-4 md:p-6">
                         <div class="flex justify-between items-center">
-                            <img src="https://avatar.iran.liara.run/public" class="w-10 h-10" />
+                            <div class="flex gap-2 items-center">
+                                <img src="https://avatar.iran.liara.run/public" class="w-10 h-10" />
+                                <p class="text-gray-400">{{ $report['ownerData']['email'] }}</p>
+                            </div>
                             <div class="text-xs">
                                 <span class="uppercase bg-blue-100 text-blue-800 font-medium me-2 px-2.5 py-0.5 rounded">
                                     {{ $report['category'] }}
@@ -28,9 +31,9 @@
                                     {{ $report['location'] }}
                                 </span>
                                 <span class="uppercase font-medium me-2 px-2.5 py-0.5 rounded
-            @if ($report['status'] === 'PENDING') bg-yellow-100 text-yellow-800 
-            @elseif ($report['status'] === 'INPROGRES') bg-blue-100 text-blue-800 
-            @elseif ($report['status'] === 'VERIFIED') bg-green-100 text-green-800 
+            @if ($report['status'] === 'Pending') bg-yellow-100 text-yellow-800 
+            @elseif ($report['status'] === 'Verified') bg-blue-100 text-blue-800 
+            @elseif ($report['status'] === 'Solved') bg-green-100 text-green-800 
             @else bg-gray-100 text-gray-800 @endif">
                                     {{ $report['status'] }}
                                 </span>
