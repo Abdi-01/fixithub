@@ -20,7 +20,7 @@
     </div>
     @endif
 
-    <form action="{{ route('register.submit') }}" method="POST" class="max-w-sm px-10 py-6 bg-gray-800 border-gray-700 rounded-lg shadow-md mx-auto">
+    <form action="{{ route('signin') }}" method="POST" class="max-w-sm px-10 py-6 bg-gray-800 border-gray-700 rounded-lg shadow-md mx-auto">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Selamat Datang</h5>
         @csrf
         <x-form-input type="email" label="Email" name="email" placeholder="email@example.com" required />

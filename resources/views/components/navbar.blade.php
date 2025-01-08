@@ -7,6 +7,16 @@
             </p>
         </a>
         <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            @if(session('user'))
+            <div class="flex gap-2 items-center">
+                <p>{{ session('user')['name'] ?? session('user')['email'] }}</p>
+                <button type="button"
+                    class="text-blue-700 hover:text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+                    onclick="onSignOut()">
+                    Sign Out
+                </button>
+            </div>
+            @else
             <div>
                 <a href="/signin">
                     <button type="button"
@@ -19,6 +29,7 @@
                         Up</button>
                 </a>
             </div>
+            @endif
             <button data-collapse-toggle="navbar-sticky" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
                 aria-controls="navbar-sticky" aria-expanded="false">
@@ -54,3 +65,23 @@
         </div>
     </div>
 </nav>
+
+<script>
+    function onSignOut() {
+        fetch("{{ route('logout') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}" // Tambahkan CSRF token
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "{{ route('signin') }}"; // Redirect ke halaman login
+                } else {
+                    console.error("Logout gagal");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    };
+</script>

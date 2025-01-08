@@ -11,7 +11,7 @@ class ReportController extends Controller
 
     public function getReports()
     {
-        $response = Http::get($this->BASE_URL . '/api/data/reports');
+        $response = Http::get($this->BASE_URL . '/api/data/reports?loadRelations=user');
 
         // Periksa apakah permintaan berhasil
         if ($response->successful()) {
@@ -25,7 +25,7 @@ class ReportController extends Controller
     public function show($slug)
     {
         // Fetch data dari API menggunakan slug
-        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}";
+        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=user";
 
         try {
             $response = Http::get($apiUrl);
@@ -61,8 +61,21 @@ class ReportController extends Controller
         //     $validated['mediafile'] = $filePath;
         // }
 
+        // Ambil email dari session
+        $email = session('user') ? session('user')->email : null;
+
+        // Periksa apakah email ada
+        if (!$email) {
+            return back()->withErrors(['error' => 'Email pengguna tidak ditemukan dalam sesi']);
+        }
+
+        // Gabungkan data validasi dengan email
+        $payload = array_merge($validated, [
+            'email' => $email,
+        ]);
+
         // Kirim data ke API
-        $response = Http::post($this->BASE_URL . '/api/data/reports', $validated);
+        $response = Http::post($this->BASE_URL . '/api/data/reports', $payload);
 
         // Tangani respons
         if ($response->successful()) {

@@ -1,10 +1,9 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SignupController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,3 +46,7 @@ Route::post('/submit', [SignupController::class, 'store'])->name('register.submi
 Route::post('/report/submit', [ReportController::class, 'createReport'])->name('report.submit');
 
 Route::get('/reports', [ReportController::class, 'getReports'])->name('reports.index');
+
+Route::post('/signin', [AuthController::class, 'signin'])->name('signin');
+
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
