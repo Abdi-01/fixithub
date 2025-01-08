@@ -24,7 +24,8 @@ class ContentSecurityPolicy
         img-src 'self' https://via.placeholder.com https://images.unsplash.com; 
         script-src 'self' 'unsafe-inline'; 
         style-src 'self' 'unsafe-inline'; 
-        connect-src 'self' https:;");
+        connect-src 'self' https:;
+    ");
 
         return $response;
     }
