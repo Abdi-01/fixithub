@@ -2,11 +2,11 @@
 $steps = [
 'Pending' => [
 'label' => 'Pending',
-'detail' => 'Masih akan menentukan solusinya',
+'detail' => 'Masih akan memverifikasi laporan ',
 ],
 'Verified' => [
 'label' => 'Verified',
-'detail' => 'Solusi sudah dipilih dan akan diimplementasikan',
+'detail' => 'Laporan telah verifikasi',
 ],
 'Solved' => [
 'label' => 'Solved',

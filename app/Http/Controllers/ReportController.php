@@ -130,4 +130,19 @@ class ReportController extends Controller
             return back()->withErrors(['error' => 'Terjadi kesalahan saat membuat laporan']);
         }
     }
+
+    public function verifyReport(Request $request, $slug)
+    {
+        $verifyReport = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->put($this->BASE_URL . "/api/data/reports/{$slug}", [
+            'status' => 'Verified'
+        ]);
+
+        if ($verifyReport->successful()) {
+            return back()->with('success', 'Laporan berhasil diverifikasi');
+        } else {
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat memverifikasi laporan']);
+        }
+    }
 }

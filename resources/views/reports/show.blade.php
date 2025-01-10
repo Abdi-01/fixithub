@@ -17,10 +17,16 @@ The data structure example is like this :
 -->
 @extends('layouts.app')
 
+@php
+$reportObjectId = $report['objectId'];
+@endphp
 @section('content')
 <div class="md:px-24">
     @if ($report)
     @section('title', $report['title'] . ' | FixIt Hub')
+
+    <!-- Notifikasi -->
+    <x-notif />
     <div class="flex gap-16">
         <div id="content-report" class="flex-1 max-h-screen overflow-y-scroll space-y-5 pr-5">
             <h1 class="text-3xl font-semibold">{{ $report['title'] ?? 'N/A' }} </h1>
@@ -72,8 +78,18 @@ The data structure example is like this :
             </div>
         </div>
         <div id="content-track-status" class="w-fit space-y-5">
+            @if(session('user') && session('user')['role'] == 'citizen' || $report['status'] != 'Pending')
             <h2 class="text-xl text-gray-500">Track Goverment Status</h2>
             <x-reports.track-status status="{{$report['status']}}" />
+            @elseif($report['status'] == 'Pending')
+            <h2 class="text-xl text-gray-500">Verifikasi masalah ini ?</h2>
+            <button
+                id="openModalBtn"
+                class="w-full block sm:inline-block border border-green-400  text-green-500 px-4 py-1.5 rounded shadow hover:bg-gray-100"
+                onclick="onVerifiedReport('{{ $reportObjectId }}')">
+                Verifikasi
+            </button>
+            @endif
         </div>
     </div>
     <!-- Display other fields here -->
@@ -81,4 +97,25 @@ The data structure example is like this :
     <p>No report found.</p>
     @endif
 </div>
+<script>
+    function onVerifiedReport(slugReportId) {
+        console.log(slugReportId);
+
+        fetch(`{{ route('report.verify', ':slug') }}`.replace(':slug', slugReportId), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/reports"; // Redirect setelah berhasil
+                } else {
+                    console.error("Verifikasi laporan gagal");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    }
+</script>
 @endsection

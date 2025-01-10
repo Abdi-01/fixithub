@@ -53,3 +53,5 @@ Route::get('/reports', [ReportController::class, 'getReports'])->name('reports.i
 Route::post('/signin', [AuthController::class, 'signin'])->name('signin');
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::put('/report/verify/{slug}', [ReportController::class, 'verifyReport'])->name('report.verify');
