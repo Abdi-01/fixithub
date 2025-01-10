@@ -21,9 +21,9 @@ class ContentSecurityPolicy
         // Perbarui header Content-Security-Policy
         $response->headers->set('Content-Security-Policy', "
         default-src 'self'; 
-        img-src 'self' https://images.unsplash.com https://via.placeholder.com data:; 
-    script-src 'self' 'unsafe-inline' https://cdn.tiny.cloud https://unpkg.com; 
-    style-src 'self' 'unsafe-inline' https://cdn.tiny.cloud;
+        img-src 'self' https://*; 
+        script-src 'self' 'unsafe-inline' https://cdn.tiny.cloud https://unpkg.com; 
+        style-src 'self' 'unsafe-inline' https://cdn.tiny.cloud; 
         connect-src 'self' https:;
     ");
 
