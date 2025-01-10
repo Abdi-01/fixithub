@@ -53,7 +53,7 @@ class ReportController extends Controller
             'description' => 'required|string',
             'location' => 'required|string',
             'category' => 'required|string',
-            'mediafile' => 'nullable|file|mimes:jpg,png,gif,svg|max:2048',
+            'mediafile' => 'nullable|file|mimes:pdf,jpg,png,gif,svg|max:2048',
         ]);
 
         // Upload file ke Cloudinary jika ada

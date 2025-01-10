@@ -60,9 +60,12 @@
                         class="rounded-md bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                         required>
                         <option selected disabled>Pilih kategori laporan</option>
-                        <option value="Kenpendudukan">Kenpendudukan</option>
+                        <option value="Kependudukan">Kependudukan</option>
+                        <option value="Lingkungan">Lingkungan</option>
                         <option value="Kesehatan">Kesehatan</option>
                         <option value="Transportasi">Transportasi</option>
+                        <option value="Pendidikan">Pendidikan</option>
+                        <option value="Digital">Digital</option>
                     </select>
                 </div>
             </div>

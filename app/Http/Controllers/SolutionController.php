@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class SolutionController extends Controller
 {
@@ -16,15 +17,25 @@ class SolutionController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            // 'mediafile' => 'nullable|file|mimes:jpg,png,gif,svg|max:2048',
+            'category' => 'required|string',
+            'mediafile' => 'nullable|file|mimes:pdf,jpg,png,gif,svg|max:2048',
         ]);
 
-        // Upload file jika ada
-        // if ($request->hasFile('mediafile')) {
-        //     $file = $request->file('mediafile');
-        //     $filePath = $file->store('uploads', 'public'); // Simpan di storage/public/uploads
-        //     $validated['mediafile'] = $filePath;
-        // }
+        // Upload file ke Cloudinary jika ada
+        $mediaUrl = null;
+        if ($request->hasFile('mediafile')) {
+            $uploadedFileUrl = Cloudinary::upload($request->file('mediafile')->getRealPath(), [
+                'folder' => 'fixithub/solutions', // Nama folder di Cloudinary
+                'transformation' => [
+                    'width' => 800,
+                    'height' => 400,
+                    'crop' => 'limit',
+                    'quality' => 'auto',
+                ],
+            ])->getSecurePath();
+
+            $mediaUrl = $uploadedFileUrl; // URL file di Cloudinary
+        }
 
         $accountId = session('user') ? session('user')['objectId'] : null;
 
@@ -40,6 +51,8 @@ class SolutionController extends Controller
         $payload = [
             'title' => $validated['title'],
             'description' => $validated['description'],
+            'category' => $validated['category'],
+            'mediafile' => $mediaUrl
         ];
 
 
@@ -48,16 +61,16 @@ class SolutionController extends Controller
 
         if (!$createSolutionResponse->successful()) {
             Log::error('Error creating solution:', ['response' => $createSolutionResponse->body()]);
-            return back()->withErrors(['error' => 'Gagal membuat laporan di Backendless']);
+            return back()->withErrors(['error' => 'Gagal membuat solusi di Backendless']);
         }
 
-        // Ambil ID laporan yang baru dibuat
+        // Ambil ID solusi yang baru dibuat
         $solutionObjectId = $createSolutionResponse->json()['objectId'];
         Log::info('Response from Backendless:', [
             'response_data_reportId' => $solutionObjectId,
         ]);
 
-        // Cek apakah laporan benar-benar ada
+        // Cek apakah solusi benar-benar ada
         $solutionExists = Http::get($this->BASE_URL . "/api/data/solutions/{$solutionObjectId}");
         if (!$solutionExists->successful()) {
             Log::error('Solution not found in Backendless:', ['reportId' => $solutionObjectId]);
@@ -71,7 +84,7 @@ class SolutionController extends Controller
             return back()->withErrors(['error' => 'Akun tidak ditemukan di Backendless']);
         }
 
-        // Buat relasi antara laporan dan akun di Backendless
+        // Buat relasi antara solusi dan akun di Backendless
         $relationAccountResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
         ])->put($this->BASE_URL . "/api/data/accounts/{$accountId}/solutionList", [

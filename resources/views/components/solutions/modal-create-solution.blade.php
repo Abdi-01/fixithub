@@ -10,7 +10,7 @@
     id="modal"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 hidden">
     <!-- Modal Content -->
-    <div class="bg-white p-6 rounded shadow-lg max-w-md w-full">
+    <div class="bg-white p-6 rounded shadow-lg max-w-xl w-full">
         <h2 class="text-lg font-bold mb-4">Berikan Masukan</h2>
         <div>
             <!-- Notifikasi -->
