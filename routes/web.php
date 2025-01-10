@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SignupController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SolutionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +45,8 @@ Route::get('/reports/{slug}', [ReportController::class, 'show']);
 Route::post('/submit', [SignupController::class, 'store'])->name('register.submit');
 
 Route::post('/report/submit', [ReportController::class, 'createReport'])->name('report.submit');
+
+Route::post('/solution/{slug}/submit', [SolutionController::class, 'createSolution'])->name('solution.submit');
 
 Route::get('/reports', [ReportController::class, 'getReports'])->name('reports.index');
 

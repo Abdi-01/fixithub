@@ -36,21 +36,8 @@
 
     <div class="max-w-xl m-auto p-6 bg-gray-800 border-gray-700 rounded-lg shadow-md">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Sampaikan Laporan Anda</h5>
-        @if (session('success'))
-        <div class="p-4 mb-4 text-green-700 bg-green-100 rounded-lg">
-            {{ session('success') }}
-        </div>
-        @endif
-
-        @if ($errors->any())
-        <div class="p-4 mb-4 text-red-700 bg-red-100 rounded-lg">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
+        <!-- Notifikasi -->
+        <x-notif />
         <form action="{{ route('report.submit') }}" method="POST" enctype="multipart/form-data" class="mx-auto">
             @csrf
             <x-form-input type="text" label="Judul" name="title" placeholder="Ketik Judul Laporan" required />

@@ -3,9 +3,11 @@
 @section('content')
 <div class="container mx-auto mt-5">
     <div class="flex gap-6">
+        @if(session('user') && session('user')['role'] == 'citizen')
         <div class="flex-1">
             <x-reports.create-report />
         </div>
+        @endif
         <div class="flex-1">
             <h1 class="text-2xl font-semibold mb-5 text-slate-500">Masalah Terbaru</h1>
             @if(session('error'))

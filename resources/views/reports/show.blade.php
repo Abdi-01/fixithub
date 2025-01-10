@@ -22,7 +22,7 @@ The data structure example is like this :
     @if ($report)
     @section('title', $report['title'] . ' | FixIt Hub')
     <div class="flex gap-16">
-        <div class="flex-1 space-y-5">
+        <div id="content-report" class="flex-1 max-h-screen overflow-y-scroll space-y-5 pr-5">
             <h1 class="text-3xl font-semibold">{{ $report['title'] ?? 'N/A' }} </h1>
             <div class="flex gap-8">
                 <p><span class="text-gray-400">Published</span> {{ \Carbon\Carbon::parse($report['created'])->format('d/m/Y H:i:s') }}</p>
@@ -36,11 +36,42 @@ The data structure example is like this :
             <div>
                 <div class="flex justify-between items-center">
                     <h3 class="text-xl font-semibold">Solutions</h3>
-                    <x-reports.modal-create-solution />
+                    <x-solutions.modal-create-solution slugReportId="{{$report['objectId']}}" />
+                </div>
+                <div>
+                    @forelse($report['solutionReportList'] as $solution)
+                    <div>
+                        <div class="p-4 md:p-6">
+                            <div class="flex justify-between items-center">
+                                <div class="mb-4 flex gap-2 items-center">
+                                    <p><span class="text-gray-400">Created by</span> {{ $solution['ownerData']['email'] }}</p>
+                                </div>
+                                <div class="text-xs">
+                                    <span class="uppercase font-medium me-2 px-2.5 py-0.5 rounded
+            @if ($solution['status'] === 'Submitted') bg-yellow-100 text-yellow-800 
+            @elseif ($solution['status'] === 'Selected') bg-blue-100 text-blue-800 
+            @elseif ($solution['status'] === 'In Progress') bg-blue-300 text-blue-800 
+            @elseif ($solution['status'] === 'Solved') bg-green-100 text-green-800 
+            @else bg-gray-100 text-gray-800 @endif">
+                                        {{ $solution['status'] }}
+                                    </span>
+                                </div>
+                            </div>
+                            <a href="#">
+                                <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 ">{{ $solution['title'] }}</h5>
+                            </a>
+                            <p class="mb-3 text-gray-600">
+                                {!! $solution['description'] ?? 'N/A' !!}
+                            </p>
+                        </div>
+                    </div>
+                    <hr />
+                    @empty
+                    @endforelse
                 </div>
             </div>
         </div>
-        <div class="w-fit space-y-5">
+        <div id="content-track-status" class="w-fit space-y-5">
             <h2 class="text-xl text-gray-500">Track Goverment Status</h2>
             <x-reports.track-status status="{{$report['status']}}" />
         </div>

@@ -26,7 +26,7 @@ class ReportController extends Controller
     public function show($slug)
     {
         // Fetch data dari API menggunakan slug
-        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=ownerData";
+        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=ownerData%2CsolutionReportList.ownerData";
 
         try {
             $response = Http::get($apiUrl);

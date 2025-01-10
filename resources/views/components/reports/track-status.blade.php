@@ -1,14 +1,14 @@
 @php
 $steps = [
-'PENDING' => [
+'Pending' => [
 'label' => 'Pending',
 'detail' => 'Masih akan menentukan solusinya',
 ],
-'VERIFIED' => [
+'Verified' => [
 'label' => 'Verified',
 'detail' => 'Solusi sudah dipilih dan akan diimplementasikan',
 ],
-'SOLVED' => [
+'Solved' => [
 'label' => 'Solved',
 'detail' => 'Telah diterapkan',
 ],
@@ -20,8 +20,8 @@ $steps = [
     @php
     $isActive = $status === $key || array_search($status, array_keys($steps)) > array_search($key, array_keys($steps));
     $isCurrent = $status === $key;
-    $bgColor = $isActive ? ($key === 'PENDING' ? 'bg-yellow-200 ' : ($key === 'VERIFIED' ? 'bg-blue-200 ' : 'bg-green-200 ')) : 'bg-gray-100 ';
-    $iconColor = $isActive ? ($key === 'PENDING' ? 'text-yellow-500 ' : ($key === 'VERIFIED' ? 'text-blue-500 ' : 'text-green-500 ')) : 'text-gray-500 ';
+    $bgColor = $isActive ? ($key === 'Pending' ? 'bg-yellow-200 ' : ($key === 'Verified' ? 'bg-blue-200 ' : 'bg-green-200 ')) : 'bg-gray-100 ';
+    $iconColor = $isActive ? ($key === 'Pending' ? 'text-yellow-500 ' : ($key === 'Verified' ? 'text-blue-500 ' : 'text-green-500 ')) : 'text-gray-500 ';
     @endphp
 
     <li class="mb-10 ms-6">

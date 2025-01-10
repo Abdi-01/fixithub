@@ -7,7 +7,13 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'FixIt Hub')</title>
 
-    <link rel="stylesheet" href="{{ \App\Helpers\ViteHelper::asset('resources/css/app.css') }}">
+    @if (app()->environment('local'))
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @else
+    <link rel="stylesheet" href="{{ asset('assets/app-C8h9l1WO.css') }}">
+    @endif
+
+    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 
 <body class="text-gray-900">
