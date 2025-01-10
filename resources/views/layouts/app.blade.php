@@ -12,14 +12,6 @@
     @else
     <link rel="stylesheet" href="{{ \App\Helpers\ViteHelper::asset('resources/css/app.css') }}">
     @endif
-    <script>
-        window.deferLoadingAlpine = function(callback) {
-            window.Alpine = Alpine;
-            Alpine.skipEvaluations = true; // Disable eval-like features
-            callback();
-        };
-    </script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 
 </head>
 

@@ -26,7 +26,7 @@ $reportObjectId = $report['objectId'];
     @section('title', $report['title'] . ' | FixIt Hub')
 
     <!-- Notifikasi -->
-    <x-notif />
+    @include('components.notification')
     <div class="flex gap-16">
         <div id="content-report" class="flex-1 max-h-screen overflow-y-scroll space-y-5 pr-5">
             <h1 class="text-3xl font-semibold">{{ $report['title'] ?? 'N/A' }} </h1>
@@ -37,13 +37,18 @@ $reportObjectId = $report['objectId'];
                 <!-- <p><span class="text-gray-400">Status</span> <b>{{ $report['status'] }}</b></p> -->
             </div>
             <hr />
+            @if(!empty($report['mediafile']))
+            <img src="{{ $report['mediafile'] }}" alt="Uploaded Image" class="max-w-full m-auto h-auto" />
+            @endif
             <p>{!! $report['description'] ?? 'N/A' !!}</p>
             <hr />
             <div>
+                @if(session('user') && session('user')['role'] == 'citizen' && $report['status'] != 'Solved')
                 <div class="flex justify-between items-center">
                     <h3 class="text-xl font-semibold">Solutions</h3>
                     <x-solutions.modal-create-solution slugReportId="{{$report['objectId']}}" />
                 </div>
+                @endif
                 <div>
                     @forelse($report['solutionReportList'] as $solution)
                     <div>

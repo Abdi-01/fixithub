@@ -14,7 +14,7 @@
         <h2 class="text-lg font-bold mb-4">Berikan Masukan</h2>
         <div>
             <!-- Notifikasi -->
-            <x-notif />
+            @include('components.notification')
             <!-- Form -->
             <form action="{{ route('solution.submit', ['slug' => $slugReportId]) }}" method="POST" enctype="multipart/form-data" class="mx-auto">
                 <x-solutions.create-solution />

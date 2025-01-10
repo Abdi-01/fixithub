@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ReportController extends Controller
 {
@@ -52,15 +53,24 @@ class ReportController extends Controller
             'description' => 'required|string',
             'location' => 'required|string',
             'category' => 'required|string',
-            // 'mediafile' => 'nullable|file|mimes:jpg,png,gif,svg|max:2048',
+            'mediafile' => 'nullable|file|mimes:jpg,png,gif,svg|max:2048',
         ]);
 
-        // Upload file jika ada
-        // if ($request->hasFile('mediafile')) {
-        //     $file = $request->file('mediafile');
-        //     $filePath = $file->store('uploads', 'public'); // Simpan di storage/public/uploads
-        //     $validated['mediafile'] = $filePath;
-        // }
+        // Upload file ke Cloudinary jika ada
+        $mediaUrl = null;
+        if ($request->hasFile('mediafile')) {
+            $uploadedFileUrl = Cloudinary::upload($request->file('mediafile')->getRealPath(), [
+                'folder' => 'fixithub/reports', // Nama folder di Cloudinary
+                'transformation' => [
+                    'width' => 800,
+                    'height' => 400,
+                    'crop' => 'limit',
+                    'quality' => 'auto',
+                ],
+            ])->getSecurePath();
+
+            $mediaUrl = $uploadedFileUrl; // URL file di Cloudinary
+        }
 
         $accountId = session('user') ? session('user')['objectId'] : null;
 
@@ -78,6 +88,7 @@ class ReportController extends Controller
             'description' => $validated['description'],
             'location' => $validated['location'],
             'category' => $validated['category'],
+            'mediafile' => $mediaUrl
         ];
 
 
