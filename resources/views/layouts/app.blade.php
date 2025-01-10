@@ -10,7 +10,7 @@
     @if (app()->environment('local'))
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @else
-    <link rel="stylesheet" href="{{ asset('assets/app-C8h9l1WO.css') }}">
+    <link rel="stylesheet" href="{{ \App\Helpers\ViteHelper::asset('resources/css/app.css') }}">
     @endif
 
     <script src="//unpkg.com/alpinejs" defer></script>
