@@ -128,4 +128,46 @@ class SolutionController extends Controller
             return back()->withErrors(['error' => 'Terjadi kesalahan saat membuat solusi']);
         }
     }
+
+    public function updateSolutionStatus(Request $request, $reportIdSlug, $solutionIdSlug)
+    {
+        // Validasi input dari request
+        $request->validate([
+            'change-solution-status' => 'required|string|in:Selected,In Progress,Completed',
+        ]);
+
+        // Panggil API untuk mengupdate status solusi
+        $updateSolution = Http::withHeaders([
+            'Content-Type' => 'application/json',
+        ])->put($this->BASE_URL . "/api/data/solutions/{$solutionIdSlug}", [
+            'status' => $request->input('change-solution-status'),
+        ]);
+
+        // Tanggapan berdasarkan hasil respons API
+        if ($updateSolution->successful()) {
+            // Jika status solusi adalah "Completed", ubah status report menjadi "Solved"
+            if ($request->input('change-solution-status') === 'Completed') {
+                // Update status report menggunakan API
+                $updateReport = Http::withHeaders([
+                    'Content-Type' => 'application/json',
+                ])->put($this->BASE_URL . "/api/data/reports/{$reportIdSlug}", [
+                    'status' => 'Solved',
+                ]);
+
+                // Jika update report gagal
+                if (!$updateReport->successful()) {
+                    return back()->withErrors(['error' => 'Status solusi diperbarui, tetapi terjadi kesalahan saat memperbarui status laporan']);
+                }
+            }
+            return back()->with('success', 'Status solusi berhasil diperbarui');
+        } else {
+            // Log detail respons API
+            Log::error('Gagal memperbarui status solusi', [
+                'response_status' => $updateSolution->status(), // HTTP status code dari API
+                'response_body' => $updateSolution->body(), // Body respons dari API
+                'request_data' => $request->all() // Data yang dikirim ke API
+            ]);
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat merubah status solusi']);
+        }
+    }
 }
