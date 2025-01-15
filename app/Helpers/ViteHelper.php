@@ -29,10 +29,15 @@ class ViteHelper
             throw new \Exception('Asset not found in manifest: ' . $path);
         }
 
-        if (config('app.env') === 'production') {
-            return $manifest[$path]['file'];
-        } else {
-            return '/build/' . $manifest[$path]['file'];
+        // Generate file URL
+        $assetFile = $manifest[$path]['file'];
+
+        // Gunakan APP_URL atau base URL untuk memastikan URL absolut
+        $baseUrl = rtrim(config('app.url'), '/');
+        if ($isVercel) {
+            $baseUrl = rtrim(env('VERCEL_URL', $baseUrl), '/');
         }
+
+        return $baseUrl . '/build/' . $assetFile;
     }
 }
