@@ -34,7 +34,7 @@ class ViteHelper
 
         // Pastikan path dimulai dari root dengan menambahkan '/build/' jika tidak ada
         if (config('app.env') === 'production') {
-            return url('build/' . $assetUrl); // Menggunakan `url()` untuk memastikan URL absolut
+            return url($assetUrl); // Menggunakan `url()` untuk memastikan URL absolut
         } else {
             return url('build/' . $assetUrl); // Menggunakan `url()` untuk memastikan URL absolut
         }
