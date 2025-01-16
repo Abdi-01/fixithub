@@ -141,7 +141,7 @@ The data structure example is like this :
             @if(session('user') && $report['status'] === 'Solved')
             <x-reports.modal-report-feedback slugReportId="{{$report['objectId']}}" />
             @endif
-            @elseif($report['status'] == 'Pending')
+            @elseif(session('user') && session('user')['role'] == 'goverment' && $report['status'] == 'Pending')
             <h2 class="text-xl text-gray-500">Verifikasi masalah ini ?</h2>
             <button
                 id="openModalBtn"
@@ -153,6 +153,7 @@ The data structure example is like this :
             <h2 class="text-xl text-gray-500">Diskusi</h2>
             <x-reports.discuss-box
                 :reportId="$report['objectId']"
+                :reportStatus="$report['status']"
                 :discussionMessages="$report['discussionMessages']" />
         </div>
     </div>

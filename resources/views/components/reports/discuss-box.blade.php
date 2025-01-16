@@ -1,5 +1,6 @@
 @props([
 'reportId',
+'reportStatus',
 'discussionMessages' => []
 ])
 
@@ -13,6 +14,7 @@
     @if(session('user'))
     <form action="{{ route('discussion.submit', ['slug' => $reportId ]) }}" method="POST" class="mx-auto">
         @csrf
+        @if($reportStatus !== 'Solved')
         <div class="flex items-center justify-between gap-2">
             <input id="message" name="message" placeholder="Tuliskan pesan" class="p-2 border border-gray-200 rounded-full" />
             <button type="submit"
@@ -20,6 +22,7 @@
                 Kirim
             </button>
         </div>
+        @endif
     </form>
     @else
     <a href="/signin"

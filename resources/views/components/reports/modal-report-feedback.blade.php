@@ -185,6 +185,34 @@
         }
     });
 
+
+    function previewImage(event) {
+        const fileInput = event.target;
+        const previewContainer = document.getElementById('preview-container');
+        const imagePreview = document.getElementById('image-preview');
+
+        // Pastikan file yang dipilih adalah gambar
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    // Set URL gambar ke src elemen img
+                    imagePreview.src = e.target.result;
+                    // Tampilkan kontainer preview
+                    previewContainer.classList.remove('hidden');
+                };
+
+                // Baca file sebagai Data URL
+                reader.readAsDataURL(file);
+            } else {
+                alert('File yang dipilih bukan gambar!');
+                fileInput.value = ''; // Reset input file
+                previewContainer.classList.add('hidden');
+            }
+        }
+    }
     // rating
     // Ambil nilai rating yang dipilih
     // const ratingInputs = document.querySelectorAll('input[name="rating"]');
