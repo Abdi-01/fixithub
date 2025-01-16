@@ -29,10 +29,14 @@ class ViteHelper
             throw new \Exception('Asset not found in manifest: ' . $path);
         }
 
+        // Mengembalikan URL absolut yang selalu dimulai dari root URL
+        $assetUrl = $manifest[$path]['file'];
+
+        // Pastikan path dimulai dari root dengan menambahkan '/build/' jika tidak ada
         if (config('app.env') === 'production') {
-            return $manifest[$path]['file'];
+            return url('build/' . $assetUrl); // Menggunakan `url()` untuk memastikan URL absolut
         } else {
-            return '/build/' . $manifest[$path]['file'];
+            return url('build/' . $assetUrl); // Menggunakan `url()` untuk memastikan URL absolut
         }
     }
 }
