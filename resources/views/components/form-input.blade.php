@@ -1,5 +1,6 @@
 @props([
 'name',
+'classLabel'=>null,
 'label'=>null,
 'type'=>'text',
 'id'=> null,
@@ -8,7 +9,7 @@
 
 <div class="mb-4">
     @if($label ?? false)
-    <label for="{{ $id }}" class="block mb-2 text-sm font-medium text-white">
+    <label for="{{ $id }}" class="block mb-2 text-sm font-medium {{ $classLabel }}">
         {{$label}}
     </label>
     @endif

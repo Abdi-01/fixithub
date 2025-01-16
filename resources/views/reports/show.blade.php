@@ -29,8 +29,21 @@ The data structure example is like this :
     @include('components.notification')
     <div class="flex gap-16">
         <div id="content-report" class="flex-1 max-h-screen overflow-y-scroll space-y-5 pr-5">
-            <h1 class="text-3xl font-semibold">{{ $report['title'] ?? 'N/A' }} </h1>
-            <div class="flex gap-8">
+            <div>
+                <h1 class="text-3xl font-semibold">{{ $report['title'] ?? 'N/A' }} </h1>
+                <div class="flex gap-2 items-center text-sm">
+                    @if ($report['feedbackFor'])
+                    <p class="text-sm text-gray-500"><span class="text-gray-400">Reference to</span> {{ $report['feedbackFor']['title'] }}</p>
+                    <a href="/reports/{{ $report['feedbackFor']['objectId'] }}" class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                        View reference
+                        <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
+                        </svg>
+                    </a>
+                    @endif
+                </div>
+            </div>
+            <div class="flex gap-4">
                 <p><span class="text-gray-400">Published</span> {{ \Carbon\Carbon::parse($report['created'])->format('d/m/Y H:i:s') }}</p>
                 <p><span class="text-gray-400">Location</span> {{ $report['location'] }}</p>
                 <p><span class="text-gray-400">Category</span> {{ $report['category'] }}</p>
@@ -43,12 +56,14 @@ The data structure example is like this :
             <p>{!! $report['description'] ?? 'N/A' !!}</p>
             <hr />
             <div>
-                @if(session('user') && session('user')['role'] == 'citizen' && $report['status'] != 'Solved')
                 <div class="flex justify-between items-center">
                     <h3 class="text-xl font-semibold">Solutions</h3>
+                    @if(session('user') && session('user')['role'] == 'citizen' && $report['status'] != 'Solved')
+                    <!-- @if(session('user') && $report['status'] !== 'Solved') -->
                     <x-solutions.modal-create-solution slugReportId="{{$report['objectId']}}" />
+                    <!-- @endif -->
+                    @endif
                 </div>
-                @endif
                 <div>
                     @forelse($report['solutionReportList'] as $solution)
                     <!-- define status with color code -->
@@ -123,13 +138,8 @@ The data structure example is like this :
             @if(session('user') && session('user')['role'] == 'citizen' || $report['status'] != 'Pending')
             <h2 class="text-xl text-gray-500">Track Goverment Status</h2>
             <x-reports.track-status status="{{$report['status']}}" />
-            @if(session('user') && session('user')['role'] == 'citizen' || $report['status'] === 'Solved')
-            <button
-                id="openModalBtn"
-                class="w-full block sm:inline-block border border-yellow-400  text-yellow-500 px-4 py-1.5 rounded shadow hover:bg-gray-100"
-                onclick="onVerifiedReport('{{ $reportObjectId }}')">
-                Rating and Feedback
-            </button>
+            @if(session('user') && $report['status'] === 'Solved')
+            <x-reports.modal-report-feedback slugReportId="{{$report['objectId']}}" />
             @endif
             @elseif($report['status'] == 'Pending')
             <h2 class="text-xl text-gray-500">Verifikasi masalah ini ?</h2>

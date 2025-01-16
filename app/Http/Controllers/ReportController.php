@@ -27,7 +27,7 @@ class ReportController extends Controller
     public function show($slug)
     {
         // Fetch data dari API menggunakan slug
-        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=ownerData%2CsolutionReportList.ownerData%2CdiscussionMessages";
+        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=ownerData%2CsolutionReportList.ownerData%2CdiscussionMessages%2CfeedbackFor";
 
         try {
             $response = Http::get($apiUrl);
@@ -45,7 +45,7 @@ class ReportController extends Controller
         }
     }
 
-    public function createReport(Request $request)
+    public function createReport(Request $request, $slug)
     {
         // Validasi input
         $validated = $request->validate([
@@ -133,6 +133,14 @@ class ReportController extends Controller
             'objectIds' => $accountId
         ]);
 
+        if ($slug) {
+            $relationReportFeedbackResponse = Http::withHeaders([
+                'Content-Type' => 'application/json'
+            ])->put($this->BASE_URL . "/api/data/reports/{$reportObjectId}/feedbackFor", [
+                'objectIds' => $slug
+            ]);
+        }
+
 
         // Tangani respons
         if ($createReportResponse->successful() && $relationAccountResponse->successful() && $relationReportResponse->successful()) {
@@ -143,6 +151,21 @@ class ReportController extends Controller
     }
 
     public function verifyReport(Request $request, $slug)
+    {
+        $verifyReport = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->put($this->BASE_URL . "/api/data/reports/{$slug}", [
+            'status' => 'Verified'
+        ]);
+
+        if ($verifyReport->successful()) {
+            return back()->with('success', 'Laporan berhasil diverifikasi');
+        } else {
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat memverifikasi laporan']);
+        }
+    }
+
+    public function ratingReport(Request $request, $slug)
     {
         $verifyReport = Http::withHeaders([
             'Content-Type' => 'application/json'

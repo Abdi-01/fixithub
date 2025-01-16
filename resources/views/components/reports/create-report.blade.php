@@ -29,10 +29,6 @@
     });
 </script>
 <div class="space-y-5">
-    <h1 class="text-4xl text-center text-gray-900"><span class="text-gray-400 font-light">Selamat Datang
-            di</span>
-        <span>FixIt<span class="font-bold">Hub</span></span>
-    </h1>
 
     <div class="max-w-xl m-auto p-6 bg-gray-800 border-gray-700 rounded-lg shadow-md">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Sampaikan Laporan Anda</h5>
@@ -40,7 +36,7 @@
         @include('components.notification')
         <form action="{{ route('report.submit') }}" method="POST" enctype="multipart/form-data" class="mx-auto">
             @csrf
-            <x-form-input type="text" label="Judul" name="title" placeholder="Ketik Judul Laporan" required />
+            <x-form-input type="text" label="Judul" name="title" placeholder="Ketik Judul Laporan" classLabel="text-white" required />
             <div class="mb-5">
                 <label for="description" class="block mb-2 text-sm font-medium text-white">Deskripsi</label>
                 <textarea id="description" name="description" rows="4"

@@ -4,7 +4,11 @@
 <div class="container mx-auto mt-5">
     <div class="flex gap-6">
         @if(session('user') && session('user')['role'] == 'citizen')
-        <div class="flex-1">
+        <div class="flex-1 space-y-5">
+            <h1 class="text-4xl text-center text-gray-900"><span class="text-gray-400 font-light">Selamat Datang
+                    di</span>
+                <span>FixIt<span class="font-bold">Hub</span></span>
+            </h1>
             <x-reports.create-report />
         </div>
         @endif
