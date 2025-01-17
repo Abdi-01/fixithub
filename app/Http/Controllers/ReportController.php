@@ -27,7 +27,7 @@ class ReportController extends Controller
     public function show($slug)
     {
         // Fetch data dari API menggunakan slug
-        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=ownerData%2CsolutionReportList.ownerData%2CdiscussionMessages%2CfeedbackFor";
+        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=ownerData%2CsolutionReportList.ownerData%2CdiscussionMessages%2CreportFor%2cfeedbackRatingComment.ownerData";
 
         try {
             $response = Http::get($apiUrl);
@@ -134,9 +134,9 @@ class ReportController extends Controller
         ]);
 
         if ($slug) {
-            $relationReportFeedbackResponse = Http::withHeaders([
+            $relationReportForResponse = Http::withHeaders([
                 'Content-Type' => 'application/json'
-            ])->put($this->BASE_URL . "/api/data/reports/{$reportObjectId}/feedbackFor", [
+            ])->put($this->BASE_URL . "/api/data/reports/{$reportObjectId}/reportFor", [
                 'objectIds' => $slug
             ]);
         }
@@ -165,18 +165,52 @@ class ReportController extends Controller
         }
     }
 
-    public function ratingReport(Request $request, $slug)
+    public function createFeedbackRating(Request $request, $slug)
     {
-        $verifyReport = Http::withHeaders([
-            'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/reports/{$slug}", [
-            'status' => 'Verified'
+        // Validasi input
+        $validated = $request->validate([
+            'rating' => 'required',
+            'comment' => 'required|string',
         ]);
 
-        if ($verifyReport->successful()) {
-            return back()->with('success', 'Laporan berhasil diverifikasi');
+        // Get user id from login session
+        $accountId = session('user') ? session('user')['objectId'] : null;
+
+        // Periksa apakah data user ada
+        if (!$accountId) {
+            return back()->withErrors(['error' => 'Data pengguna tidak ditemukan dalam sesi']);
+        }
+
+        // Gabungkan data validasi
+        $payload = [
+            'rating' => $validated['rating'],
+            'comment' => $validated['comment'],
+        ];
+
+        $feedbackRatingResponse = Http::post($this->BASE_URL . '/api/data/feedbacks', $payload);
+
+        // Periksa ID rating yang baru dibuat
+        $feedbackRatingObjectId = $feedbackRatingResponse->json()['objectId'];
+        Log::info('Response from Backendless:', [
+            'response_data_rating' => $feedbackRatingObjectId,
+        ]);
+
+        $relationfeedbackAccountResponse = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->put($this->BASE_URL . "/api/data/feedbacks/{$feedbackRatingObjectId}/ownerData", [
+            'objectIds' => $accountId
+        ]);
+
+        $relationfeedbackReportResponse = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->put($this->BASE_URL . "/api/data/reports/{$slug}/feedbackRatingComment", [
+            'objectIds' => $feedbackRatingObjectId
+        ]);
+
+        if ($feedbackRatingResponse->successful() && $relationfeedbackAccountResponse->successful() && $relationfeedbackReportResponse->successful()) {
+            return back()->with('success', 'Berhasil mengirimkan rating');
         } else {
-            return back()->withErrors(['error' => 'Terjadi kesalahan saat memverifikasi laporan']);
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat memberikan rating']);
         }
     }
 }

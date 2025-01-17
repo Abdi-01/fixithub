@@ -53,7 +53,9 @@ Route::get('/reports', [ReportController::class, 'getReports'])->name('reports.i
 
 Route::post('/report/submit', [ReportController::class, 'createReport'])->name('report.submit');
 
-Route::post('/report/{slug}/feedback', [ReportController::class, 'createReport'])->name('report.feedback');
+Route::post('/report/for/{slug}', [ReportController::class, 'createReport'])->name('report.for');
+
+Route::post('/report/feedback/rating/{slug}', [ReportController::class, 'createFeedbackRating'])->name('report.feedback');
 
 Route::post('/report/verify/{slug}', [ReportController::class, 'verifyReport'])->name('report.verify');
 

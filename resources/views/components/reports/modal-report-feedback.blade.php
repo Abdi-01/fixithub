@@ -33,24 +33,25 @@
 </script>
 
 <style>
-    .star {
-        font-size: 1.5rem;
-        transition: color 0.2s;
+    .rating-circle {
+        font-size: 1rem;
+        /* Ukuran teks */
+        transition: all 0.3s ease;
+        /* Efek transisi */
     }
 
-    input[type="radio"]:checked~.star {
-        color: #ffcc00;
-        /* Warna bintang yang dipilih */
+    input[type="radio"]:checked+.rating-circle {
+        background-color: #2563eb;
+        /* Warna biru saat dipilih */
+        color: white;
+        /* Warna teks putih saat dipilih */
+        border-color: #2563eb;
+        /* Ubah warna border */
     }
 
-    input[type="radio"]:checked~.star:hover {
-        color: #f1a100;
-        /* Warna saat hover bintang yang dipilih */
-    }
-
-    input[type="radio"]:not(:checked)~.star:hover {
-        color: #ffcc00;
-        /* Warna hover saat belum dipilih */
+    .rating-circle:hover {
+        transform: scale(1.1);
+        /* Sedikit perbesar saat hover */
     }
 </style>
 <button
@@ -70,32 +71,52 @@
             <!-- Notifikasi -->
             @include('components.notification')
             <!-- Form -->
-            <form class="mx-auto">
+            <form class="mx-auto" action="{{ route('report.feedback', ['slug' => $slugReportId]) }}" method="POST">
                 @csrf
                 <div class="overflow-y-auto">
                     <!-- Rating Section -->
                     <div class="mb-4">
                         <label class="block text-sm font-medium text-gray-700">Rating</label>
-                        <div class="w-fit m-auto flex flex-row-reverse items-center space-x-1">
-                            <!-- Rating 1 Star -->
+                        <div class="w-fit m-auto flex items-center space-x-1">
+                            <!-- Rating 1 -->
                             <input type="radio" id="rating-1" name="rating" value="1" class="hidden" />
-                            <label for="rating-1" class="star cursor-pointer text-gray-400 hover:text-yellow-400">★</label>
+                            <label
+                                for="rating-1"
+                                class="rating-circle cursor-pointer flex items-center justify-center w-10 h-10 border rounded-full text-gray-500 hover:text-white hover:bg-blue-500 border-gray-300">
+                                1
+                            </label>
 
-                            <!-- Rating 2 Stars -->
+                            <!-- Rating 2 -->
                             <input type="radio" id="rating-2" name="rating" value="2" class="hidden" />
-                            <label for="rating-2" class="star cursor-pointer text-gray-400 hover:text-yellow-400">★</label>
+                            <label
+                                for="rating-2"
+                                class="rating-circle cursor-pointer flex items-center justify-center w-10 h-10 border rounded-full text-gray-500 hover:text-white hover:bg-blue-500 border-gray-300">
+                                2
+                            </label>
 
-                            <!-- Rating 3 Stars -->
+                            <!-- Rating 3 -->
                             <input type="radio" id="rating-3" name="rating" value="3" class="hidden" />
-                            <label for="rating-3" class="star cursor-pointer text-gray-400 hover:text-yellow-400">★</label>
+                            <label
+                                for="rating-3"
+                                class="rating-circle cursor-pointer flex items-center justify-center w-10 h-10 border rounded-full text-gray-500 hover:text-white hover:bg-blue-500 border-gray-300">
+                                3
+                            </label>
 
-                            <!-- Rating 4 Stars -->
+                            <!-- Rating 4 -->
                             <input type="radio" id="rating-4" name="rating" value="4" class="hidden" />
-                            <label for="rating-4" class="star cursor-pointer text-gray-400 hover:text-yellow-400">★</label>
+                            <label
+                                for="rating-4"
+                                class="rating-circle cursor-pointer flex items-center justify-center w-10 h-10 border rounded-full text-gray-500 hover:text-white hover:bg-blue-500 border-gray-300">
+                                4
+                            </label>
 
-                            <!-- Rating 5 Stars -->
+                            <!-- Rating 5 -->
                             <input type="radio" id="rating-5" name="rating" value="5" class="hidden" />
-                            <label for="rating-5" class="star cursor-pointer text-gray-400 hover:text-yellow-400">★</label>
+                            <label
+                                for="rating-5"
+                                class="rating-circle cursor-pointer flex items-center justify-center w-10 h-10 border rounded-full text-gray-500 hover:text-white hover:bg-blue-500 border-gray-300">
+                                5
+                            </label>
                         </div>
                     </div>
 
@@ -149,28 +170,29 @@
 
     // rating
     // Ambil nilai rating yang dipilih
-    // const ratingInputs = document.querySelectorAll('input[name="rating"]');
-    // let selectedRating = null;
+    const ratingInputs = document.querySelectorAll('input[name="rating"]');
+    let selectedRating = null;
 
-    // ratingInputs.forEach(input => {
-    //     input.addEventListener('change', (event) => {
-    //         selectedRating = event.target.value;
-    //     });
-    // });
+    ratingInputs.forEach(input => {
+        input.addEventListener('change', (event) => {
+            selectedRating = event.target.value;
+        });
+    });
+    console.log(selectedRating);
 
-    // // Kirim rating ke controller saat form disubmit
-    // const form = document.querySelector('form');
-    // form.addEventListener('submit', (event) => {
-    //     if (!selectedRating) {
-    //         event.preventDefault();
-    //         alert('Pilih rating terlebih dahulu');
-    //     } else {
-    //         // Tambahkan rating ke dalam form sebelum dikirim
-    //         const ratingField = document.createElement('input');
-    //         ratingField.type = 'hidden';
-    //         ratingField.name = 'rating';
-    //         ratingField.value = selectedRating;
-    //         form.appendChild(ratingField);
-    //     }
-    // });
+    // Kirim rating ke controller saat form disubmit
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (event) => {
+        if (!selectedRating) {
+            event.preventDefault();
+            alert('Pilih rating terlebih dahulu');
+        } else {
+            // Tambahkan rating ke dalam form sebelum dikirim
+            const ratingField = document.createElement('input');
+            ratingField.type = 'hidden';
+            ratingField.name = 'rating';
+            ratingField.value = selectedRating;
+            form.appendChild(ratingField);
+        }
+    });
 </script>

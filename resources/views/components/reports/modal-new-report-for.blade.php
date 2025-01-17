@@ -70,7 +70,7 @@
             <!-- Notifikasi -->
             @include('components.notification')
             <!-- Form -->
-            <form action="{{ route('report.feedback', ['slug' => $slugReportId])  }}" method="POST" enctype="multipart/form-data" class="mx-auto">
+            <form action="{{ route('report.for', ['slug' => $slugReportId])  }}" method="POST" enctype="multipart/form-data" class="mx-auto">
                 @csrf
                 <div class="h-[40rem] overflow-y-auto">
 
@@ -190,30 +190,4 @@
             }
         }
     }
-    // rating
-    // Ambil nilai rating yang dipilih
-    // const ratingInputs = document.querySelectorAll('input[name="rating"]');
-    // let selectedRating = null;
-
-    // ratingInputs.forEach(input => {
-    //     input.addEventListener('change', (event) => {
-    //         selectedRating = event.target.value;
-    //     });
-    // });
-
-    // // Kirim rating ke controller saat form disubmit
-    // const form = document.querySelector('form');
-    // form.addEventListener('submit', (event) => {
-    //     if (!selectedRating) {
-    //         event.preventDefault();
-    //         alert('Pilih rating terlebih dahulu');
-    //     } else {
-    //         // Tambahkan rating ke dalam form sebelum dikirim
-    //         const ratingField = document.createElement('input');
-    //         ratingField.type = 'hidden';
-    //         ratingField.name = 'rating';
-    //         ratingField.value = selectedRating;
-    //         form.appendChild(ratingField);
-    //     }
-    // });
 </script>

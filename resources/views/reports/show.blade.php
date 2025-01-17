@@ -32,9 +32,9 @@ The data structure example is like this :
             <div>
                 <h1 class="text-3xl font-semibold">{{ $report['title'] ?? 'N/A' }} </h1>
                 <div class="flex gap-2 items-center text-sm">
-                    @if ($report['feedbackFor'])
-                    <p class="text-sm text-gray-500"><span class="text-gray-400">Reference to</span> {{ $report['feedbackFor']['title'] }}</p>
-                    <a href="/reports/{{ $report['feedbackFor']['objectId'] }}" class="inline-flex font-medium items-center text-blue-600 hover:underline">
+                    @if ($report['reportFor'])
+                    <p class="text-sm text-gray-500"><span class="text-gray-400">Reference to</span> {{ $report['reportFor']['title'] }}</p>
+                    <a href="/reports/{{ $report['reportFor']['objectId'] }}" class="inline-flex font-medium items-center text-blue-600 hover:underline">
                         View reference
                         <svg class="w-3 h-3 ms-2.5 rtl:rotate-[270deg]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11v4.833A1.166 1.166 0 0 1 13.833 17H2.167A1.167 1.167 0 0 1 1 15.833V4.167A1.166 1.166 0 0 1 2.167 3h4.618m4.447-2H17v5.768M9.111 8.889l7.778-7.778" />
@@ -134,12 +134,41 @@ The data structure example is like this :
                 </div>
             </div>
         </div>
-        <div id="content-track-status" class="w-fit space-y-5">
+        <div id="content-track-status" class="w-fit space-y-3">
             @if(session('user') && session('user')['role'] == 'citizen' || $report['status'] != 'Pending')
             <h2 class="text-xl text-gray-500">Track Goverment Status</h2>
             <x-reports.track-status status="{{$report['status']}}" />
             @if(session('user') && $report['status'] === 'Solved')
-            <x-reports.modal-report-feedback slugReportId="{{$report['objectId']}}" />
+            <!-- Feedback Comment List -->
+            <h2 class="text-xl text-gray-500">Tanggapan masyarakat</h2>
+            <div class="py-2 space-y-2 max-h-40 overflow-y-auto border border-gray-200 shadow">
+                @forelse($report['feedbackRatingComment'] as $ratingComment)
+                <p class="text-xs m-1 flex items-center">
+                    <span class="text-gray-400">{{ $ratingComment['rating'] }}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 .587l3.668 7.431L24 9.75l-6 5.847L19.336 24 12 20.201 4.664 24 6 15.597 0 9.75l8.332-1.732z" />
+                    </svg>
+                    <span>
+                        {{ $ratingComment['comment'] }}
+                    </span>
+                </p>
+                @empty
+                <p class="text-xs text-gray-500">Tidak ada feedback tersedia.</p>
+                @endforelse
+            </div>
+            <!-- Kondisi untuk Modal Report Feedback -->
+            @php
+            $userId = session('user')['objectId']; // Ambil ID pengguna yang login
+            $hasGivenFeedback = collect($report['feedbackRatingComment'])
+            ->contains(fn($feedback) => isset($feedback['ownerData']['objectId']) && $feedback['ownerData']['objectId'] === $userId);
+            @endphp
+
+            @unless($hasGivenFeedback)
+            <x-reports.modal-report-feedback slugReportId="{{ $report['objectId'] }}" />
+            @endunless
+
+            <!-- Modal New Report -->
+
             <x-reports.modal-new-report-for slugReportId="{{$report['objectId']}}" />
             @endif
             @elseif(session('user') && session('user')['role'] == 'goverment' && $report['status'] == 'Pending')
