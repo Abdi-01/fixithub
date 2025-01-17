@@ -140,6 +140,7 @@ The data structure example is like this :
             <x-reports.track-status status="{{$report['status']}}" />
             @if(session('user') && $report['status'] === 'Solved')
             <x-reports.modal-report-feedback slugReportId="{{$report['objectId']}}" />
+            <x-reports.modal-new-report-for slugReportId="{{$report['objectId']}}" />
             @endif
             @elseif(session('user') && session('user')['role'] == 'goverment' && $report['status'] == 'Pending')
             <h2 class="text-xl text-gray-500">Verifikasi masalah ini ?</h2>

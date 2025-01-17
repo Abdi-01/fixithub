@@ -70,12 +70,12 @@
             <!-- Notifikasi -->
             @include('components.notification')
             <!-- Form -->
-            <form action="{{ route('report.feedback', ['slug' => $slugReportId])  }}" method="POST" enctype="multipart/form-data" class="mx-auto">
+            <form class="mx-auto">
                 @csrf
-                <div class="h-[40rem] overflow-y-auto">
+                <div class="overflow-y-auto">
                     <!-- Rating Section -->
                     <div class="mb-4">
-                        <label class="block text-sm font-medium text-gray-700">Rating:</label>
+                        <label class="block text-sm font-medium text-gray-700">Rating</label>
                         <div class="w-fit m-auto flex flex-row-reverse items-center space-x-1">
                             <!-- Rating 1 Star -->
                             <input type="radio" id="rating-1" name="rating" value="1" class="hidden" />
@@ -98,52 +98,14 @@
                             <label for="rating-5" class="star cursor-pointer text-gray-400 hover:text-yellow-400">★</label>
                         </div>
                     </div>
-                    <x-form-input type="text" label="Judul" name="title" placeholder="Ketik Judul Laporan" required />
+
                     <div class="mb-5">
-                        <label for="description" class="block mb-2 text-sm font-medium">Deskripsi</label>
-                        <textarea id="description" name="description" rows="4"
+                        <label for="comment" class="block mb-2 text-sm font-medium">Comment</label>
+                        <textarea id="comment" name="comment" rows="4"
                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
-                            placeholder="Jelaskan laporan anda...."></textarea>
+                            placeholder="Berikan komentar"></textarea>
                     </div>
-                    <div class="flex justify-between mb-5 gap-5">
-                        <div class="flex-1">
-                            <x-form-input type="text" label="Lokasi" name="location" placeholder="Info lokasi" required />
-                        </div>
-                        <div class="flex-1">
-                            <label for="category" class="block mb-2 text-sm font-medium">Kategori</label>
-                            <select id="category" name="category"
-                                class="shadow-sm bg-gray-50 border border-gray-300 rounded-md placeholder-gray-400 focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                                required>
-                                <option selected disabled>Pilih kategori laporan</option>
-                                <option value="Kependudukan">Kependudukan</option>
-                                <option value="Lingkungan">Lingkungan</option>
-                                <option value="Kesehatan">Kesehatan</option>
-                                <option value="Transportasi">Transportasi</option>
-                                <option value="Pendidikan">Pendidikan</option>
-                                <option value="Digital">Digital</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="mb-5">
-                        <div class="flex items-center gap-2">
-                            <label for="mediafile"
-                                class="flex flex-col items-center justify-center w-full h-fit border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <svg class="w-8 h-8 mb-4 text-gray-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 20 16">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                    </svg>
-                                    <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                                    <p class="text-xs text-gray-500">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                                </div>
-                                <input id="mediafile" type="file" name="mediafile" class="hidden" onchange="previewImage(event)" />
-                            </label>
-                            <div id="preview-container" class="hidden">
-                                <img id="image-preview" src="" alt="Preview Gambar" class="max-w-full max-h-64 rounded-md" />
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="flex justify-end space-x-2">
                     <button
@@ -185,34 +147,6 @@
         }
     });
 
-
-    function previewImage(event) {
-        const fileInput = event.target;
-        const previewContainer = document.getElementById('preview-container');
-        const imagePreview = document.getElementById('image-preview');
-
-        // Pastikan file yang dipilih adalah gambar
-        if (fileInput.files && fileInput.files[0]) {
-            const file = fileInput.files[0];
-            if (file.type.startsWith('image/')) {
-                const reader = new FileReader();
-
-                reader.onload = function(e) {
-                    // Set URL gambar ke src elemen img
-                    imagePreview.src = e.target.result;
-                    // Tampilkan kontainer preview
-                    previewContainer.classList.remove('hidden');
-                };
-
-                // Baca file sebagai Data URL
-                reader.readAsDataURL(file);
-            } else {
-                alert('File yang dipilih bukan gambar!');
-                fileInput.value = ''; // Reset input file
-                previewContainer.classList.add('hidden');
-            }
-        }
-    }
     // rating
     // Ambil nilai rating yang dipilih
     // const ratingInputs = document.querySelectorAll('input[name="rating"]');
