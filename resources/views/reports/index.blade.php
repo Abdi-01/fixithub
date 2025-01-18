@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mx-auto mt-5">
-    <div class="flex gap-6">
+    <div class="block md:flex gap-6 space-y-4">
         @if(session('user') && session('user')['role'] == 'citizen')
         <div class="flex-1 space-y-5">
             <h1 class="text-4xl text-center text-gray-900"><span class="text-gray-400 font-light">Selamat Datang
@@ -23,13 +23,13 @@
             <div class="space-y-4">
                 @forelse($reports as $report)
                 <div class="bg-white border border-gray-200 rounded-lg shadow">
-                    <div class="p-4 md:p-6">
-                        <div class="flex justify-between items-center">
+                    <div class="p-4 md:p-6 space-y-3">
+                        <div class="block md:flex justify-between items-center space-y-3">
                             <div class="flex gap-2 items-center">
                                 <img src="https://avatar.iran.liara.run/public" class="w-10 h-10" />
                                 <p class="text-gray-400">{{ $report['ownerData']['email'] }}</p>
                             </div>
-                            <div class="text-xs">
+                            <div class="flex flex-wrap gap-1 text-[10px] md:text-xs">
                                 <span class="uppercase bg-blue-100 text-blue-800 font-medium me-2 px-2.5 py-0.5 rounded">
                                     {{ $report['category'] }}
                                 </span>

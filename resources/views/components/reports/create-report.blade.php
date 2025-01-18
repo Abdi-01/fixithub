@@ -29,8 +29,7 @@
     });
 </script>
 <div class="space-y-5">
-
-    <div class="max-w-xl m-auto p-6 bg-gray-800 border-gray-700 rounded-lg shadow-md">
+    <div class="max-w-xl m-auto p-3 md:p-6 bg-gray-800 border-gray-700 rounded-lg shadow-md">
         <h5 class="mb-2 text-2xl font-bold tracking-tight text-white">Sampaikan Laporan Anda</h5>
         <!-- Notifikasi -->
         @include('components.notification')

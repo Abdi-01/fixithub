@@ -27,8 +27,8 @@ The data structure example is like this :
     @endphp
     <!-- Notifikasi -->
     @include('components.notification')
-    <div class="flex gap-16">
-        <div id="content-report" class="flex-1 max-h-screen overflow-y-scroll space-y-5 pr-5">
+    <div class="flex flex-col items-center md:items-start md:flex-row md:gap-16 space-y-5">
+        <div id="content-report" class="flex-1 max-h-screen overflow-y-scroll space-y-5 md:pr-5">
             <div>
                 <h1 class="text-3xl font-semibold">{{ $report['title'] ?? 'N/A' }} </h1>
                 <div class="flex gap-2 items-center text-sm">
@@ -43,7 +43,7 @@ The data structure example is like this :
                     @endif
                 </div>
             </div>
-            <div class="flex gap-4">
+            <div class="flex gap-4 text-[10px] md:text-lg">
                 <p><span class="text-gray-400">Published</span> {{ \Carbon\Carbon::parse($report['created'])->format('d/m/Y H:i:s') }}</p>
                 <p><span class="text-gray-400">Location</span> {{ $report['location'] }}</p>
                 <p><span class="text-gray-400">Category</span> {{ $report['category'] }}</p>
@@ -58,7 +58,7 @@ The data structure example is like this :
             @if ($report['status'] != 'Pending')
             <hr />
             <div>
-                <div class="flex justify-between items-center">
+                <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-semibold">Solutions</h3>
                     @if(session('user') && session('user')['role'] == 'citizen' && $report['status'] != 'Solved')
                     <!-- @if(session('user') && $report['status'] !== 'Solved') -->
@@ -88,13 +88,13 @@ The data structure example is like this :
                     $isKeySolution = in_array($solution['status'], ['Selected', 'In Progress']);
                     @endphp
                     <div>
-                        <div class="p-4 md:p-6">
+                        <div class="md:p-6">
                             <div class="flex justify-between items-center">
-                                <div class="mb-4 flex gap-2 items-center">
+                                <div class="mb-4 flex gap-2 items-center flex-wrap text-xs md:text-base">
                                     <p><span class="text-gray-400">Created by</span> {{ $solution['ownerData']['email'] }}</p>
                                     <p><span class="text-gray-400">Category</span> {{ $solution['category'] }}</p>
                                 </div>
-                                <div class="flex items-center gap-2 text-xs">
+                                <div class="flex items-center gap-2 text-[10px] md:text-xs">
                                     @if ( session('user')['role'] === 'goverment')
                                     <form
                                         action="{{ route('solution.update', ['reportIdSlug' => $report['objectId'], 'solutionIdSlug' => $solution['objectId']]) }}"

@@ -7,29 +7,31 @@
             </p>
         </a>
         <div class="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-            @if(session('user'))
-            <div class="flex gap-2 items-center">
-                <p>{{ session('user')['name'] ?? session('user')['email'] }}</p>
-                <button type="button"
-                    class="text-blue-700 hover:text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
-                    onclick="onSignOut()">
-                    Sign Out
-                </button>
-            </div>
-            @else
-            <div>
-                <a href="/signin">
+            <div class="hidden md:block">
+                @if(session('user'))
+                <div class="flex gap-2 items-center">
+                    <p>{{ session('user')['name'] ?? session('user')['email'] }}</p>
                     <button type="button"
-                        class="text-blue-700 bg-white  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Sign
-                        In</button>
-                </a>
-                <a href="/signup">
-                    <button type="button"
-                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Sign
-                        Up</button>
-                </a>
+                        class="text-blue-700 hover:text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+                        onclick="onSignOut()">
+                        Sign Out
+                    </button>
+                </div>
+                @else
+                <div>
+                    <a href="/signin">
+                        <button type="button"
+                            class="text-blue-700 bg-white  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Sign
+                            In</button>
+                    </a>
+                    <a href="/signup">
+                        <button type="button"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Sign
+                            Up</button>
+                    </a>
+                </div>
+                @endif
             </div>
-            @endif
             <button data-collapse-toggle="navbar-sticky" type="button"
                 class="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 "
                 aria-controls="navbar-sticky" aria-expanded="false">
@@ -59,6 +61,33 @@
                 <li>
                     <a href="#"
                         class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 ">Contact</a>
+                </li>
+                <li>
+                    <div class="block py-2 px-3 md:hidden">
+                        @if(session('user'))
+                        <div class="flex gap-2 items-center">
+                            <p>{{ session('user')['name'] ?? session('user')['email'] }}</p>
+                            <button type="button"
+                                class="text-blue-700 hover:text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center"
+                                onclick="onSignOut()">
+                                Sign Out
+                            </button>
+                        </div>
+                        @else
+                        <div>
+                            <a href="/signin">
+                                <button type="button"
+                                    class="text-blue-700 bg-white  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Sign
+                                    In</button>
+                            </a>
+                            <a href="/signup">
+                                <button type="button"
+                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center">Sign
+                                    Up</button>
+                            </a>
+                        </div>
+                        @endif
+                    </div>
                 </li>
             </ul>
         </div>

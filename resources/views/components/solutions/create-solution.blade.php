@@ -28,7 +28,7 @@
         // ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
     });
 </script>
-<div class="flex gap-3">
+<div class="block md:flex h-80 md:h-auto p-1 overflow-y-auto gap-3">
     @csrf
     <div class="flex-1">
         <div class="mb-2">
