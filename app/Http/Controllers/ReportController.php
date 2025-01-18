@@ -45,7 +45,7 @@ class ReportController extends Controller
         }
     }
 
-    public function createReport(Request $request, $slug)
+    public function createReport(Request $request, $slug = null)
     {
         // Validasi input
         $validated = $request->validate([
