@@ -95,10 +95,7 @@ The data structure example is like this :
                                     <p><span class="text-gray-400">Category</span> {{ $solution['category'] }}</p>
                                 </div>
                                 <div class="flex items-center gap-2 text-xs">
-                                    @if (
-                                    $report['status'] === 'Verified' &&
-                                    ($allSolutionsSubmitted || $isKeySolution) && session('user')['role'] === 'goverment'
-                                    )
+                                    @if ( session('user')['role'] === 'goverment')
                                     <form
                                         action="{{ route('solution.update', ['reportIdSlug' => $report['objectId'], 'solutionIdSlug' => $solution['objectId']]) }}"
                                         method="POST"
@@ -141,9 +138,9 @@ The data structure example is like this :
             @if(session('user') && session('user')['role'] == 'citizen' || $report['status'] != 'Pending')
             <h2 class="text-xl text-gray-500">Track Goverment Status</h2>
             <x-reports.track-status status="{{$report['status']}}" />
-            @if(session('user') && $report['status'] === 'Solved')
+            @if(session('user') && (session('user')['objectId'] === $report['ownerData']['objectId'] || session('user')['role'] === 'goverment') && $report['status'] === 'Solved')
             <!-- Feedback Comment List -->
-            <h2 class="text-xl text-gray-500">Tanggapan masyarakat</h2>
+            <h2 class="text-xl text-gray-500">Tanggapan</h2>
             <div class="py-2 space-y-2 max-h-40 overflow-y-auto border border-gray-200 shadow">
                 @forelse($report['feedbackRatingComment'] as $ratingComment)
                 <p class="text-xs m-1 flex items-center">
