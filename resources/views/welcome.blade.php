@@ -11,11 +11,10 @@
                 <h1 class="text-5xl font-bold text-blue-600 mb-4">Kolaborasi Efektif untuk Solusi Bersama</h1>
                 <p class="font-thin text-lg text-gray-700 mb-6">Hubungkan masyarakat dan pemerintah untuk menyelesaikan masalah sosial melalui diskusi, laporan, dan solusi yang terverifikasi.</p>
                 <div class="space-y-4 sm:space-x-4 sm:space-y-0">
-                    <a href="/signup" class="block sm:inline-block bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">Daftar Sekarang</a>
-                    <a href="#learn-more" class="block sm:inline-block bg-white text-blue-600 border border-blue-600 px-6 py-3 rounded-lg shadow hover:bg-blue-50">Pelajari Lebih Lanjut</a>
+                    <a href="/signup" class="block sm:inline-block bg-blue-600 text-center text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">Daftar Sekarang</a>
                 </div>
             </div>
-            <div class="flex-1">
+            <div class="flex-1 hidden md:block">
                 <img src="https://images.unsplash.com/photo-1616259833791-9a8d5529a87c" />
             </div>
         </div>
@@ -61,7 +60,7 @@
         <div class="container mx-auto px-6 text-center">
             <h2 class="text-3xl font-bold text-gray-800 mb-6">Bergabunglah Sekarang</h2>
             <p class="text-lg text-gray-700 mb-6">Mulai perjalanan Anda untuk berkontribusi dalam menyelesaikan masalah sosial.</p>
-            <a href="#" class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">Daftar Sekarang</a>
+            <a href="/signup" class="block sm:inline-block bg-blue-600 text-center text-white px-6 py-3 rounded-lg shadow hover:bg-blue-700">Daftar Sekarang</a>
         </div>
     </section>
 
