@@ -54,6 +54,8 @@ The data structure example is like this :
             <img src="{{ $report['mediafile'] }}" alt="Uploaded Image" class="max-w-full m-auto h-auto" />
             @endif
             <p>{!! $report['description'] ?? 'N/A' !!}</p>
+            <!-- Discussions section only appear when report is verified or isn't Pending report  -->
+            @if ($report['status'] != 'Pending')
             <hr />
             <div>
                 <div class="flex justify-between items-center">
@@ -133,6 +135,7 @@ The data structure example is like this :
                     @endforelse
                 </div>
             </div>
+            @endif
         </div>
         <div id="content-track-status" class="w-fit space-y-3">
             @if(session('user') && session('user')['role'] == 'citizen' || $report['status'] != 'Pending')
