@@ -59,15 +59,31 @@ class ReportController extends Controller
         // Upload file ke Cloudinary jika ada
         $mediaUrl = null;
         if ($request->hasFile('mediafile')) {
-            $uploadedFileUrl = Cloudinary::upload($request->file('mediafile')->getRealPath(), [
-                'folder' => 'fixithub/reports', // Nama folder di Cloudinary
-                'transformation' => [
-                    'width' => 800,
-                    'height' => 400,
-                    'crop' => 'limit',
-                    'quality' => 'auto',
-                ],
-            ])->getSecurePath();
+            // Dapatkan tipe MIME file
+            $fileMimeType = $request->file('mediafile')->getMimeType();
+
+            // Konfigurasi upload berdasarkan tipe file
+            if (str_contains($fileMimeType, 'image')) {
+                // Jika file adalah gambar
+                $uploadedFileUrl = Cloudinary::upload($request->file('mediafile')->getRealPath(), [
+                    'folder' => 'fixithub/reports', // Folder khusus gambar
+                    'transformation' => [
+                        'width' => 800,
+                        'height' => 400,
+                        'crop' => 'limit',
+                        'quality' => 'auto',
+                    ],
+                ])->getSecurePath();
+            } elseif ($fileMimeType === 'application/pdf') {
+                // Jika file adalah PDF
+                $uploadedFileUrl = Cloudinary::upload($request->file('mediafile')->getRealPath(), [
+                    'folder' => 'fixithub/reports', // Folder khusus PDF
+                    'resource_type' => 'raw', // Resource type untuk PDF
+                ])->getSecurePath();
+            } else {
+                // Tipe file tidak sesuai, return error atau handle sesuai kebutuhan
+                return back()->withErrors(['mediafile' => 'Tipe file tidak didukung.']);
+            }
 
             $mediaUrl = $uploadedFileUrl; // URL file di Cloudinary
         }

@@ -50,9 +50,21 @@ The data structure example is like this :
                 <!-- <p><span class="text-gray-400">Status</span> <b>{{ $report['status'] }}</b></p> -->
             </div>
             <hr />
-            @if(!empty($report['mediafile']))
-            <img src="{{ $report['mediafile'] }}" alt="Uploaded Image" class="max-w-full m-auto h-auto" />
+            @if (!empty($report['mediafile']))
+            @php
+            $fileUrl = $report['mediafile'];
+            $fileExtension = pathinfo($fileUrl, PATHINFO_EXTENSION);
+            @endphp
+
+            @if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+            {{-- Jika file adalah gambar --}}
+            <img src="{{ $fileUrl }}" alt="Uploaded Image" class="max-w-full m-auto h-auto" />
+            @else
+            {{-- Jika file adalah PDF --}}
+            <iframe src="https://docs.google.com/gview?url={{$fileUrl}}&embedded=true" class="w-full h-96 rounded-md" frameborder="0"></iframe>
             @endif
+            @endif
+
             <p>{!! $report['description'] ?? 'N/A' !!}</p>
             <!-- Discussions section only appear when report is verified or isn't Pending report  -->
             @if ($report['status'] != 'Pending')
@@ -95,7 +107,7 @@ The data structure example is like this :
                                     <p><span class="text-gray-400">Category</span> {{ $solution['category'] }}</p>
                                 </div>
                                 <div class="flex items-center gap-2 text-[10px] md:text-xs">
-                                    @if ( session('user')['role'] === 'goverment')
+                                    @if ( session('user') && session('user')['role'] === 'goverment')
                                     <form
                                         action="{{ route('solution.update', ['reportIdSlug' => $report['objectId'], 'solutionIdSlug' => $solution['objectId']]) }}"
                                         method="POST"
@@ -119,8 +131,19 @@ The data structure example is like this :
                             <a href="#">
                                 <h5 class="mb-2 text-2xl font-semibold tracking-tight text-gray-900 ">{{ $solution['title'] }}</h5>
                             </a>
-                            @if(!empty($report['mediafile']))
-                            <img src="{{ $solution['mediafile'] }}" alt="Uploaded Image" class="max-w-full m-auto h-auto" />
+                            @if (!empty($solution['mediafile']))
+                            @php
+                            $fileUrl = $solution['mediafile'];
+                            $fileExtension = pathinfo($fileUrl, PATHINFO_EXTENSION);
+                            @endphp
+
+                            @if (in_array($fileExtension, ['jpg', 'jpeg', 'png', 'gif', 'webp']))
+                            {{-- Jika file adalah gambar --}}
+                            <img src="{{ $fileUrl }}" alt="Uploaded Image" class="max-w-full m-auto h-auto" />
+                            @else
+                            {{-- Jika file adalah PDF --}}
+                            <iframe src="https://docs.google.com/gview?url={{$fileUrl}}&embedded=true" class="w-full h-96 rounded-md" frameborder="0"></iframe>
+                            @endif
                             @endif
                             <p class="mb-3 text-gray-600">
                                 {!! $solution['description'] ?? 'N/A' !!}
@@ -138,24 +161,34 @@ The data structure example is like this :
             @if(session('user') && session('user')['role'] == 'citizen' || $report['status'] != 'Pending')
             <h2 class="text-xl text-gray-500">Track Goverment Status</h2>
             <x-reports.track-status status="{{$report['status']}}" />
-            @if(session('user') && (session('user')['objectId'] === $report['ownerData']['objectId'] || session('user')['role'] === 'goverment') && $report['status'] === 'Solved')
+
+            @if($report['status'] === 'Solved')
             <!-- Feedback Comment List -->
             <h2 class="text-xl text-gray-500">Tanggapan</h2>
             <div class="py-2 space-y-2 max-h-40 overflow-y-auto border border-gray-200 shadow">
                 @forelse($report['feedbackRatingComment'] as $ratingComment)
-                <p class="text-xs m-1 flex items-center">
-                    <span class="text-gray-400">{{ $ratingComment['rating'] }}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 .587l3.668 7.431L24 9.75l-6 5.847L19.336 24 12 20.201 4.664 24 6 15.597 0 9.75l8.332-1.732z" />
-                    </svg>
-                    <span>
-                        {{ $ratingComment['comment'] }}
-                    </span>
-                </p>
+                <div class="text-xs m-1 flex items-center">
+                    <div class="flex item-center">
+                        <span class="text-gray-400">{{ $ratingComment['rating'] }}</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 .587l3.668 7.431L24 9.75l-6 5.847L19.336 24 12 20.201 4.664 24 6 15.597 0 9.75l8.332-1.732z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="text-gray-400">
+                            {{ explode('@', $ratingComment['ownerData']['email'])[0] }}
+                        </p>
+                        <p>
+                            {{ $ratingComment['comment'] }}
+                        </p>
+                    </div>
+                </div>
                 @empty
                 <p class="text-xs text-gray-500">Tidak ada feedback tersedia.</p>
                 @endforelse
             </div>
+            @endif
+            @if(session('user') && (session('user')['objectId'] === $report['ownerData']['objectId'] || session('user')['role'] === 'goverment') && $report['status'] === 'Solved')
             <!-- Kondisi untuk Modal Report Feedback -->
             @php
             $userId = session('user')['objectId']; // Ambil ID pengguna yang login
