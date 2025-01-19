@@ -161,7 +161,20 @@ The data structure example is like this :
             @if(session('user') && session('user')['role'] == 'citizen' || $report['status'] != 'Pending')
             <h2 class="text-xl text-gray-500">Track Goverment Status</h2>
             <x-reports.track-status status="{{$report['status']}}" />
-
+            @if(session('user') && session('user')['role'] == 'goverment' && $report['status'] === 'Verified' &&
+            count(array_filter($report['solutionReportList'], function($solution) {
+            return $solution['status'] === 'Completed';
+            })) > 0)
+            <div>
+                <h2 class="text-xl text-gray-500">Apa masalah ini sudah solved ?</h2>
+                <button
+                    id="openModalBtn"
+                    class="w-full block sm:inline-block border border-green-400 text-green-500 px-4 py-1.5 rounded shadow hover:bg-gray-100"
+                    onclick="onSolvedReport('{{ $reportObjectId }}')">
+                    Solved
+                </button>
+            </div>
+            @endif
             @if($report['status'] === 'Solved')
             <!-- Feedback Comment List -->
             <h2 class="text-xl text-gray-500">Tanggapan</h2>
@@ -241,6 +254,26 @@ The data structure example is like this :
                     window.location.href = "/reports"; // Redirect setelah berhasil
                 } else {
                     console.error("Verifikasi laporan gagal");
+                }
+            })
+            .catch(error => console.error("Error:", error));
+    }
+
+    function onSolvedReport(slugReportId) {
+        console.log(slugReportId);
+
+        fetch(`{{ route('report.solved', ':slug') }}`.replace(':slug', slugReportId), {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}"
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = "/reports"; // Redirect setelah berhasil
+                } else {
+                    console.error("Menyelesaikan laporan gagal");
                 }
             })
             .catch(error => console.error("Error:", error));

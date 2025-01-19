@@ -181,6 +181,21 @@ class ReportController extends Controller
         }
     }
 
+    public function solvedReport(Request $request, $slug)
+    {
+        $solvedReport = Http::withHeaders([
+            'Content-Type' => 'application/json'
+        ])->put($this->BASE_URL . "/api/data/reports/{$slug}", [
+            'status' => 'Solved'
+        ]);
+
+        if ($solvedReport->successful()) {
+            return back()->with('success', 'Laporan berhasil diselesaikan');
+        } else {
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyelesaikan laporan']);
+        }
+    }
+
     public function createFeedbackRating(Request $request, $slug)
     {
         // Validasi input

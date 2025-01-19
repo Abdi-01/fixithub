@@ -58,6 +58,7 @@ Route::post('/report/for/{slug}', [ReportController::class, 'createReport'])->na
 Route::post('/report/feedback/rating/{slug}', [ReportController::class, 'createFeedbackRating'])->name('report.feedback');
 
 Route::post('/report/verify/{slug}', [ReportController::class, 'verifyReport'])->name('report.verify');
+Route::post('/report/solved/{slug}', [ReportController::class, 'solvedReport'])->name('report.solved');
 
 Route::post('/discussion/{slug}/submit', [DiscussionController::class, 'cretaeMessage'])->name('discussion.submit');
 

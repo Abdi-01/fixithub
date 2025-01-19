@@ -161,21 +161,6 @@ class SolutionController extends Controller
 
         // Tanggapan berdasarkan hasil respons API
         if ($updateSolution->successful()) {
-            // Jika status solusi adalah "Completed", ubah status report menjadi "Solved"
-            if ($request->input('change-solution-status') === 'Completed') {
-
-                // Update status report menggunakan API
-                $updateReport = Http::withHeaders([
-                    'Content-Type' => 'application/json',
-                ])->put($this->BASE_URL . "/api/data/reports/{$reportIdSlug}", [
-                    'status' => 'Solved',
-                ]);
-
-                // Jika update report gagal
-                if (!$updateReport->successful()) {
-                    return back()->withErrors(['error' => 'Status solusi diperbarui, tetapi terjadi kesalahan saat memperbarui status laporan']);
-                }
-            }
             return back()->with('success', 'Status solusi berhasil diperbarui');
         } else {
             // Log detail respons API
