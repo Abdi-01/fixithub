@@ -1,66 +1,256 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Development Documentation
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Project Overview
 
-## About Laravel
+**Project Name:** Fixithub  
+**Description:** Fixithub is a Crowdsourcing System designed to connect the public, crowdworkers, and the government to collaboratively address issues. The application allows the public to report problems, crowdworkers to provide solutions, and the government to manage verification and solution implementation. With this application, it is expected to foster more effective and transparent collaboration in solving various social issues.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Tech Stack:**
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   **Framework:** Laravel
+-   **Frontend:** Tailwind CSS
+-   **Database:** Backendless
+-   **Other Tools/Libraries:**
+    -   TinyMCE (Text Editor)
+    -   Cloudinary (Media File Storage)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+**Repository Link:** [Fixithub Repository](https://github.com/Abdi-01/fixithub.git)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Development Environment Setup
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Prerequisites
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Ensure the following tools are installed:
 
-## Laravel Sponsors
+1. **PHP**: Version 8.2.\* (or adjust to match your project version).
+2. **Composer**: Latest version.
+3. **Node.js & npm**: [Version used during development, e.g., Node.js 18+].
+4. **Database**: Backendless.
+5. **Git**: [Version used, e.g., 2.40+].
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### Installation Steps
 
-### Premium Partners
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/Abdi-01/fixithub.git
+    cd fixithub
+    ```
+2. Install PHP dependencies:
+    ```bash
+    composer install
+    ```
+3. Install JavaScript dependencies:
+    ```bash
+    npm install
+    ```
+4. Set up environment variables:
+    - Duplicate the `.env.example` file and rename it to `.env`.
+    - Update database and application settings in the `.env` file.
+5. Generate application key:
+    ```bash
+    php artisan key:generate
+    ```
+6. Run database migrations and seeders (if applicable):
+    ```bash
+    php artisan migrate --seed
+    ```
+7. Start Vite for frontend assets:
+    ```bash
+    npm run dev
+    ```
+    - This will enable auto-restart when there are changes, especially for Tailwind CSS styling.
+8. Start the development server:
+    ```bash
+    php artisan serve
+    ```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+---
 
-## Contributing
+## Folder Structure Overview
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+-   **/app**: Contains application logic (Models, Controllers, etc.).
+-   **/config**: Configuration files for the application.
+-   **/resources**: Frontend assets and views.
+-   **/routes**: Application routes (web, API, etc.).
+-   **/database**: Migrations, seeders, and factories.
+-   **/public**: Publicly accessible files (e.g., images, compiled assets).
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Key Features and Functionalities
 
-## Security Vulnerabilities
+### Feature 1: Problem Reporting
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+**Description:** Allows users to report issues with detailed descriptions and media uploads.
 
-## License
+-   Files/Components Involved: [List relevant files]
+-   Key Routes: [List key routes for this feature]
+-   Configuration/Environment Variables: [Any related .env variables]
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Feature 2: Crowdworker Solutions
+
+**Description:** Enables crowdworkers to view, discuss, and propose solutions to reported issues.
+
+-   Files/Components Involved: [List relevant files]
+-   Key Routes: [List key routes for this feature]
+-   Configuration/Environment Variables: [Any related .env variables]
+
+### Feature 3: Government Management
+
+**Description:** Provides tools for the government to verify and implement solutions, ensuring transparency.
+
+-   Files/Components Involved: [List relevant files]
+-   Key Routes: [List key routes for this feature]
+-   Configuration/Environment Variables: [Any related .env variables]
+
+---
+
+## Deployment Instructions
+
+### Deploying to Vercel
+
+#### Method 1: Connect GitHub Repository
+
+1. Log in to your [Vercel](https://vercel.com/) account.
+2. Click on **Add New Project**.
+3. Select **Import Git Repository** and connect your GitHub account.
+4. Locate and select the Fixithub repository.
+5. Configure the project:
+    - **Build Command:** `npm run build`
+    - **Output Directory:** `public`
+    - Add the required environment variables from your `.env` file.
+6. Click **Deploy**.
+7. After deployment, Vercel will provide a live URL for your project.
+
+#### Method 2: Manual Upload
+
+1. Run the following commands locally to prepare the build:
+    ```bash
+    npm run build
+    ```
+2. Compress the entire project directory (excluding `node_modules` and `.env` for security).
+3. Log in to your [Vercel](https://vercel.com/) account.
+4. Click on **Add New Project** > **Manual Deployment**.
+5. Upload the compressed file and configure:
+    - **Build Command:** `npm run build`
+    - **Output Directory:** `public`
+    - Add the required environment variables from your `.env` file.
+6. Click **Deploy**.
+7. Once the deployment is complete, Vercel will provide the project URL.
+
+#### Method 3: Using Vercel CLI
+
+1. Install Vercel CLI globally on your machine:
+    ```bash
+    npm install -g vercel
+    ```
+2. Navigate to your project directory:
+    ```bash
+    cd fixithub
+    ```
+3. Run the following command to deploy:
+    ```bash
+    vercel
+    ```
+4. Follow the CLI prompts:
+    - Select the project scope.
+    - Define the output directory as `public/build`.
+    - Set up the environment variables when prompted.
+5. Once the deployment is complete, Vercel will provide the live URL for your project.
+6. For subsequent deployments, simply run:
+    ```bash
+    vercel --prod
+    ```
+    - This will deploy your project to production directly.
+
+### Notes for Vercel Deployment
+
+-   **Output Directory:** Ensure the output directory is set to `public/build` as shown in the Vercel Project Settings.
+-   **Node.js Version:** Set the Node.js version to 18.xx in Vercel for compatibility.
+
+---
+
+### Prerequisites for Server
+
+Ensure the server meets these requirements:
+
+1. **PHP**: Version 8.2.\* (or match project version).
+2. **Web Server**: Nginx/Apache.
+3. **Database**: Backendless.
+4. **Node.js & npm**: [Version used during development].
+
+### General Steps
+
+1. Upload the project files to the server.
+2. Set correct permissions for the `storage` and `bootstrap/cache` folders.
+    ```bash
+    chmod -R 775 storage bootstrap/cache
+    ```
+3. Install dependencies and compile assets:
+    ```bash
+    composer install --optimize-autoloader --no-dev
+    npm run build
+    ```
+4. Configure the `.env` file with production settings.
+5. Run database migrations:
+    ```bash
+    php artisan migrate --force
+    ```
+6. Clear and cache configurations:
+    ```bash
+    php artisan config:cache
+    php artisan route:cache
+    php artisan view:cache
+    ```
+7. Restart the web server if needed.
+
+---
+
+## Maintenance Guide
+
+### Common Commands
+
+-   Clear application cache:
+    ```bash
+    php artisan cache:clear
+    ```
+-   View application logs:
+    ```bash
+    tail -f storage/logs/laravel.log
+    ```
+-   Run queued jobs:
+    ```bash
+    php artisan queue:work
+    ```
+
+### Adding New Features
+
+1. Create a new branch for the feature:
+    ```bash
+    git checkout -b feature/[feature-name]
+    ```
+2. Follow the existing folder and coding conventions.
+3. Before pushing changes related to Tailwind CSS styles, run:
+    ```bash
+    npm run build
+    ```
+4. Add and commit changes:
+    ```bash
+    git add .
+    git commit -m "[Description of changes]"
+    git push
+    ```
+
+---
+
+## Additional Notes
+
+-   **Documentation:** Refer to the `README.md` file for a quick project summary.
+-   **Testing:** [Add notes on how to run tests if applicable, e.g., PHPUnit commands.]
+-   **Support:** [Include contact info or further resources for client support.]
+
+---
+
+_Feel free to update this document as needed during further development._
