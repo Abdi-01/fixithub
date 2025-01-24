@@ -168,7 +168,12 @@ Ensure the following tools are installed:
 ### Notes for Vercel Deployment
 
 -   **Output Directory:** Ensure the output directory is set to `public/build` as shown in the Vercel Project Settings.
+    ![gambar](https://github.com/user-attachments/assets/faa0c56f-d044-4791-934f-86478448e755)
 -   **Node.js Version:** Set the Node.js version to 18.xx in Vercel for compatibility.
+    ![gambar](https://github.com/user-attachments/assets/70b84f75-538b-4aa8-ad09-a143924a9bf5)
+-   **Add this environtment variable** Set the environtment variables like this
+    <img width="914" alt="Screenshot 2025-01-24 at 14 43 03" src="https://github.com/user-attachments/assets/12ec2ba2-39b7-43c5-818b-37008b2764b1" />
+
 
 ---
 
