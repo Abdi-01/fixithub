@@ -35,6 +35,12 @@ class ReportController extends Controller
             if ($response->successful()) {
                 $reportData = $response->json();
 
+                // Urutkan discussionMessages berdasarkan 'created'
+                if (isset($reportData['discussionMessages'])) {
+                    usort($reportData['discussionMessages'], function ($a, $b) {
+                        return $a['created'] <=> $b['created'];
+                    });
+                }
                 // Return data ke view atau JSON
                 return view('reports.show', ['report' => $reportData]);
             }
