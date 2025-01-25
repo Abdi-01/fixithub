@@ -23,7 +23,7 @@ class SignupController extends Controller
         ];
 
         // #send request to API
-        $response = Http::post('https://kindlyblade-us.backendless.app/api/data/accounts', $payload);
+        $response = Http::post(env('BASE_URL_API') . '/api/data/accounts', $payload);
 
         // #handling response
         if ($response->successful()) {

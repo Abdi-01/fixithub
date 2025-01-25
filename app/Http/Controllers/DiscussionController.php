@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Http;
 
 class DiscussionController extends Controller
 {
-    private $BASE_URL = "https://kindlyblade-us.backendless.app";
-
     public function cretaeMessage(Request $request, $slug)
     {
         // #input validation
@@ -26,7 +24,7 @@ class DiscussionController extends Controller
 
 
         // #send request to API
-        $response = Http::post('https://kindlyblade-us.backendless.app/api/data/discussions', $payload);
+        $response = Http::post(env('BASE_URL_API') . '/api/data/discussions', $payload);
 
         // Ambil ID discuss message yang baru dibuat
         $discussObjectId = $response->json()['objectId'];
@@ -35,7 +33,7 @@ class DiscussionController extends Controller
 
         $relationReportDiscussResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/reports/{$reportObjectId}/discussionMessages", [
+        ])->put(env('BASE_URL_API') . "/api/data/reports/{$reportObjectId}/discussionMessages", [
             'objectIds' => $discussObjectId
         ]);
 

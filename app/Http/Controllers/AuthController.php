@@ -17,7 +17,7 @@ class AuthController extends Controller
         ]);
 
         // URL Backendless dan query filter
-        $url = "https://kindlyblade-us.backendless.app/api/data/accounts";
+        $url = env('BASE_URL_API') . "/api/data/accounts";
         $whereClause = "email = '{$credentials['email']}' AND password = '{$credentials['password']}'";
         $encodedWhereClause = urlencode($whereClause);
 

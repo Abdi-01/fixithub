@@ -9,8 +9,6 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class SolutionController extends Controller
 {
-    private $BASE_URL = "https://kindlyblade-us.backendless.app";
-
     public function createSolution(Request $request, $slug)
     {
         // Validasi input
@@ -73,7 +71,7 @@ class SolutionController extends Controller
 
 
         // Kirim data ke API
-        $createSolutionResponse = Http::post($this->BASE_URL . '/api/data/solutions', $payload);
+        $createSolutionResponse = Http::post(env('BASE_URL_API') . '/api/data/solutions', $payload);
 
         if (!$createSolutionResponse->successful()) {
             Log::error('Error creating solution:', ['response' => $createSolutionResponse->body()]);
@@ -87,14 +85,14 @@ class SolutionController extends Controller
         ]);
 
         // Cek apakah solusi benar-benar ada
-        $solutionExists = Http::get($this->BASE_URL . "/api/data/solutions/{$solutionObjectId}");
+        $solutionExists = Http::get(env('BASE_URL_API') . "/api/data/solutions/{$solutionObjectId}");
         if (!$solutionExists->successful()) {
             Log::error('Solution not found in Backendless:', ['reportId' => $solutionObjectId]);
             return back()->withErrors(['error' => 'Solusi tidak ditemukan di Backendless']);
         }
 
         // Cek apakah akun benar-benar ada
-        $accountExists = Http::get($this->BASE_URL . "/api/data/accounts/{$accountId}");
+        $accountExists = Http::get(env('BASE_URL_API') . "/api/data/accounts/{$accountId}");
         if (!$accountExists->successful()) {
             Log::error('Account not found in Backendless:', ['accountId' => $accountId]);
             return back()->withErrors(['error' => 'Akun tidak ditemukan di Backendless']);
@@ -103,13 +101,13 @@ class SolutionController extends Controller
         // Buat relasi antara solusi dan akun di Backendless
         $relationAccountResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/accounts/{$accountId}/solutionList", [
+        ])->put(env('BASE_URL_API') . "/api/data/accounts/{$accountId}/solutionList", [
             'objectIds' => $solutionObjectId
         ]);
 
         $relationSolutionAccountResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/solutions/{$solutionObjectId}/ownerData", [
+        ])->put(env('BASE_URL_API') . "/api/data/solutions/{$solutionObjectId}/ownerData", [
             'objectIds' => $accountId
         ]);
 
@@ -120,13 +118,13 @@ class SolutionController extends Controller
         ]);
         $relationReportSolutionResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/reports/{$reportObjectId}/solutionReportList", [
+        ])->put(env('BASE_URL_API') . "/api/data/reports/{$reportObjectId}/solutionReportList", [
             'objectIds' => $solutionObjectId
         ]);
 
         $relationSolutionReportResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/solutions/{$solutionObjectId}/reportData", [
+        ])->put(env('BASE_URL_API') . "/api/data/solutions/{$solutionObjectId}/reportData", [
             'objectIds' => $reportObjectId
         ]);
 
@@ -155,7 +153,7 @@ class SolutionController extends Controller
         // Panggil API untuk mengupdate status solusi
         $updateSolution = Http::withHeaders([
             'Content-Type' => 'application/json',
-        ])->put($this->BASE_URL . "/api/data/solutions/{$solutionIdSlug}", [
+        ])->put(env('BASE_URL_API') . "/api/data/solutions/{$solutionIdSlug}", [
             'status' => $request->input('change-solution-status'),
         ]);
 

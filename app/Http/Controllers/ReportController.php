@@ -9,11 +9,10 @@ use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 
 class ReportController extends Controller
 {
-    private $BASE_URL = "https://kindlyblade-us.backendless.app";
 
     public function getReports()
     {
-        $response = Http::get($this->BASE_URL . '/api/data/reports?loadRelations=ownerData&&sortBy=%60created%60%20desc');
+        $response = Http::get(env('BASE_URL_API') . '/api/data/reports?loadRelations=ownerData&&sortBy=%60created%60%20desc');
 
         // Periksa apakah permintaan berhasil
         if ($response->successful()) {
@@ -27,7 +26,7 @@ class ReportController extends Controller
     public function show($slug)
     {
         // Fetch data dari API menggunakan slug
-        $apiUrl = $this->BASE_URL . "/api/data/reports/{$slug}?loadRelations=ownerData%2CsolutionReportList.ownerData%2CdiscussionMessages%2CreportFor%2cfeedbackRatingComment.ownerData";
+        $apiUrl = env('BASE_URL_API') . "/api/data/reports/{$slug}?loadRelations=ownerData%2CsolutionReportList.ownerData%2CdiscussionMessages%2CreportFor%2cfeedbackRatingComment.ownerData";
 
         try {
             $response = Http::get($apiUrl);
@@ -115,7 +114,7 @@ class ReportController extends Controller
 
 
         // Kirim data ke API
-        $createReportResponse = Http::post($this->BASE_URL . '/api/data/reports', $payload);
+        $createReportResponse = Http::post(env('BASE_URL_API') . '/api/data/reports', $payload);
 
         if (!$createReportResponse->successful()) {
             Log::error('Error creating report:', ['response' => $createReportResponse->body()]);
@@ -129,14 +128,14 @@ class ReportController extends Controller
         ]);
 
         // Cek apakah laporan benar-benar ada
-        $reportExists = Http::get($this->BASE_URL . "/api/data/reports/{$reportObjectId}");
+        $reportExists = Http::get(env('BASE_URL_API') . "/api/data/reports/{$reportObjectId}");
         if (!$reportExists->successful()) {
             Log::error('Report not found in Backendless:', ['reportId' => $reportObjectId]);
             return back()->withErrors(['error' => 'Laporan tidak ditemukan di Backendless']);
         }
 
         // Cek apakah akun benar-benar ada
-        $accountExists = Http::get($this->BASE_URL . "/api/data/accounts/{$accountId}");
+        $accountExists = Http::get(env('BASE_URL_API') . "/api/data/accounts/{$accountId}");
         if (!$accountExists->successful()) {
             Log::error('Account not found in Backendless:', ['accountId' => $accountId]);
             return back()->withErrors(['error' => 'Akun tidak ditemukan di Backendless']);
@@ -145,20 +144,20 @@ class ReportController extends Controller
         // Buat relasi antara laporan dan akun di Backendless
         $relationAccountResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/accounts/{$accountId}/reportList", [
+        ])->put(env('BASE_URL_API') . "/api/data/accounts/{$accountId}/reportList", [
             'objectIds' => $reportObjectId
         ]);
 
         $relationReportResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/reports/{$reportObjectId}/ownerData", [
+        ])->put(env('BASE_URL_API') . "/api/data/reports/{$reportObjectId}/ownerData", [
             'objectIds' => $accountId
         ]);
 
         if ($slug) {
             $relationReportForResponse = Http::withHeaders([
                 'Content-Type' => 'application/json'
-            ])->put($this->BASE_URL . "/api/data/reports/{$reportObjectId}/reportFor", [
+            ])->put(env('BASE_URL_API') . "/api/data/reports/{$reportObjectId}/reportFor", [
                 'objectIds' => $slug
             ]);
         }
@@ -176,7 +175,7 @@ class ReportController extends Controller
     {
         $verifyReport = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/reports/{$slug}", [
+        ])->put(env('BASE_URL_API') . "/api/data/reports/{$slug}", [
             'status' => 'Verified'
         ]);
 
@@ -191,7 +190,7 @@ class ReportController extends Controller
     {
         $solvedReport = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/reports/{$slug}", [
+        ])->put(env('BASE_URL_API') . "/api/data/reports/{$slug}", [
             'status' => 'Solved'
         ]);
 
@@ -224,7 +223,7 @@ class ReportController extends Controller
             'comment' => $validated['comment'],
         ];
 
-        $feedbackRatingResponse = Http::post($this->BASE_URL . '/api/data/feedbacks', $payload);
+        $feedbackRatingResponse = Http::post(env('BASE_URL_API') . '/api/data/feedbacks', $payload);
 
         // Periksa ID rating yang baru dibuat
         $feedbackRatingObjectId = $feedbackRatingResponse->json()['objectId'];
@@ -234,13 +233,13 @@ class ReportController extends Controller
 
         $relationfeedbackAccountResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/feedbacks/{$feedbackRatingObjectId}/ownerData", [
+        ])->put(env('BASE_URL_API') . "/api/data/feedbacks/{$feedbackRatingObjectId}/ownerData", [
             'objectIds' => $accountId
         ]);
 
         $relationfeedbackReportResponse = Http::withHeaders([
             'Content-Type' => 'application/json'
-        ])->put($this->BASE_URL . "/api/data/reports/{$slug}/feedbackRatingComment", [
+        ])->put(env('BASE_URL_API') . "/api/data/reports/{$slug}/feedbackRatingComment", [
             'objectIds' => $feedbackRatingObjectId
         ]);
 
