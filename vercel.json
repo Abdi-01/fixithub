@@ -33,8 +33,8 @@
         "APP_ROUTES_CACHE": "/tmp/routes.php",
         "APP_SERVICES_CACHE": "/tmp/services.php",
         "VIEW_COMPILED_PATH": "/tmp",
-        "BASE_URL_API": "https://kindlyblade-us.backendless.app",
-        "CLOUDINARY_URL": "cloudinary://715819788868189:0keaZUXCPhWtb_yUlIjKSLoZIWU@dcnci7npl",
+        "BASE_URL_API": "https://awaitedapparel-us.backendless.app",
+        "CLOUDINARY_URL": "cloudinary://637962526868232:R1pOGoDpPZeuoGBh_0YsaWxhQjE@dbbjq2mfo",
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie"

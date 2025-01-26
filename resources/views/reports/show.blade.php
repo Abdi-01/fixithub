@@ -44,7 +44,7 @@ The data structure example is like this :
                 </div>
             </div>
             <div class="flex gap-4 text-[10px] md:text-lg">
-                <p><span class="text-gray-400">Published</span> {{ \Carbon\Carbon::parse($report['created'])->format('d/m/Y H:i:s') }}</p>
+                <p><span class="text-gray-400">Published</span> {{ \Carbon\Carbon::createFromTimestampMs($report['created'])->timezone('Asia/Jakarta')->format('d/m/Y H:i:s') }}</p>
                 <p><span class="text-gray-400">Location</span> {{ $report['location'] }}</p>
                 <p><span class="text-gray-400">Category</span> {{ $report['category'] }}</p>
                 <!-- <p><span class="text-gray-400">Status</span> <b>{{ $report['status'] }}</b></p> -->
