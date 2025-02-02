@@ -27,19 +27,25 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Feature 1 -->
                 <div class="bg-white rounded-lg shadow p-6 text-center">
-                    <img src="https://via.placeholder.com/100" alt="Report" class="mx-auto mb-4">
+                <img src="https://res.cloudinary.com/dbbjq2mfo/image/upload/v1738490365/document_kwr8rs.png" 
+                alt="Verify" class="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-4">
+                    <!-- <img src="https://via.placeholder.com/100" alt="Report" class="mx-auto mb-4"> -->
                     <h3 class="text-xl font-semibold mb-2">Lapor Masalah</h3>
                     <p class="text-gray-600">Laporkan masalah di sekitar Anda untuk mendapatkan perhatian dari komunitas dan pemerintah.</p>
                 </div>
                 <!-- Feature 2 -->
                 <div class="bg-white rounded-lg shadow p-6 text-center">
-                    <img src="https://via.placeholder.com/100" alt="Discuss" class="mx-auto mb-4">
+                    <img src="https://res.cloudinary.com/dbbjq2mfo/image/upload/v1738490365/meeting_yxuzkt.png" 
+                alt="Verify" class="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-4">
+                    <!-- <img src="https://via.placeholder.com/100" alt="Discuss" class="mx-auto mb-4"> -->
                     <h3 class="text-xl font-semibold mb-2">Diskusikan Solusi</h3>
                     <p class="text-gray-600">Berkolaborasi dengan masyarakat untuk menemukan solusi terbaik.</p>
                 </div>
                 <!-- Feature 3 -->
                 <div class="bg-white rounded-lg shadow p-6 text-center">
-                    <img src="https://via.placeholder.com/100" alt="Verify" class="mx-auto mb-4">
+                    <img src="https://res.cloudinary.com/dbbjq2mfo/image/upload/v1738490365/verified-account_ba6ll0.png" 
+                alt="Verify" class="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-4">
+                    <!-- <img src="https://via.placeholder.com/100" alt="Verify" class="mx-auto mb-4"> -->
                     <h3 class="text-xl font-semibold mb-2">Verifikasi & Implementasi</h3>
                     <p class="text-gray-600">Pemerintah akan memverifikasi laporan dan memastikan solusi diterapkan.</p>
                 </div>
